@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A reproducible Unicode and pattern audit of a job advertisement that argues its author can detect AI slop.">
+<meta name="author" content="Nathaniel Robertson">
+<title>The Magnifying Glass Problem</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: single measured column, forensic report. Data blocks break full-bleed-ish out of the text measure. */
+:root{
+  --paper:#f4f2ed; --ink:#1a1816; --ink-soft:#56504a; --rule:#d8d2c8;
+  --slab:#eae5dc; --flag:#a8420d; --ok:#4a6b3f; --mono-bg:#eceae4;
+  --display:'Spectral',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#15140f; --ink:#e8e3d8; --ink-soft:#9a9287; --rule:#3a362e;
+  --slab:#1f1d17; --flag:#e8752f; --ok:#8fb37d; --mono-bg:#1b1915; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --paper:#15140f; --ink:#e8e3d8; --ink-soft:#9a9287; --rule:#3a362e;
+  --slab:#1f1d17; --flag:#e8752f; --ok:#8fb37d; --mono-bg:#1b1915; color-scheme:dark;}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--display);
+  font-size:1.0625rem;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:46rem;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:3.5rem 5rem}
+h1{font-size:clamp(2.1rem,6vw,3.1rem);line-height:1.08;font-weight:800;margin:0 0 .6rem;
+  text-wrap:balance;letter-spacing:-.02em}
+h2{font-size:1.4rem;font-weight:600;margin:3rem 0 .9rem;text-wrap:balance;
+  padding-top:1.1rem;border-top:1px solid var(--rule)}
+h3{font-size:1.05rem;font-weight:600;margin:2rem 0 .5rem;font-family:var(--mono);
+  text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft)}
+p{margin:0 0 1.05rem}
+.standfirst{font-size:1.2rem;line-height:1.5;color:var(--ink-soft);font-style:italic;margin-bottom:1.6rem}
+.byline{font-family:var(--mono);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-soft);margin:0 0 2.2rem;padding-bottom:1.2rem;border-bottom:2px solid var(--ink);
+  display:flex;flex-wrap:wrap;gap:.5rem 1.4rem}
+code{font-family:var(--mono);font-size:.86em;background:var(--mono-bg);padding:.1em .34em;border-radius:2px}
+.scroller{overflow-x:auto;margin:1.5rem 0;border:1px solid var(--rule);background:var(--slab)}
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:.78rem;
+  font-variant-numeric:tabular-nums;min-width:38rem}
+th,td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--rule);white-space:nowrap}
+th{font-weight:600;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft)}
+tbody tr:last-child td{border-bottom:none}
+.glyph{font-size:1.15rem}
+.flag{color:var(--flag);font-weight:600}
+pre{font-family:var(--mono);font-size:.74rem;line-height:1.55;margin:0;padding:1.1rem;
+  background:var(--slab);overflow-x:auto;tab-size:4}
+.prewrap{margin:1.5rem 0;border:1px solid var(--rule)}
+.prewrap figcaption{font-family:var(--mono);font-size:.68rem;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-soft);padding:.6rem .8rem;border-bottom:1px solid var(--rule);
+  background:var(--mono-bg)}
+.pull{border-left:3px solid var(--flag);padding:.2rem 0 .2rem 1.1rem;margin:1.8rem 0;
+  font-size:1.14rem;line-height:1.45}
+.limits{background:var(--slab);border:1px solid var(--rule);padding:1.2rem 1.3rem;margin:2rem 0}
+.limits h3{margin-top:0}
+.limits ul{margin:0;padding-left:1.1rem}
+.limits li{margin-bottom:.5rem;font-size:.95rem}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin:2rem 0}
+.fig{background:var(--paper);padding:1rem}
+.fig .n{font-family:var(--mono);font-size:1.75rem;font-weight:600;line-height:1;
+  font-variant-numeric:tabular-nums;display:block;margin-bottom:.35rem}
+.fig .l{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-soft);line-height:1.35;display:block}
+footer{margin-top:3.5rem;padding-top:1.4rem;border-top:2px solid var(--ink);
+  font-family:var(--mono);font-size:.74rem;line-height:1.7;color:var(--ink-soft)}
+footer strong{color:var(--ink);font-weight:600}
+.hash{word-break:break-all}
+
+html{-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--flag)}
+</style>
+
+
+</head>
+<body>
+<div class="wrap">
+
+<h1>The magnifying glass problem</h1>
+<p class="standfirst">A job advertisement for a technical writer argues, at length, that its author can tell real research from AI slop. This is what happened when I measured the advertisement.</p>
+<p class="byline"><span>Nathaniel Robertson</span><span>31 October 2026</span><span>v1.0</span></p>
+
+<p>A SERP API company published a job advertisement in October 2026. It wants someone who codes their own benchmarks, publishes the method beside the result, and ships the unflattering finding when the data produces one. It says, of AI, that it produces confident nonsense, and that the company will know the difference.</p>
+
+<p>That is a testable claim about a document. So I tested the document.</p>
+
+<p>The method is 149 lines of Python standard library, printed in full below. It takes a plain text file and returns counts: characters, words, sentences, dispersion, and a complete Unicode breakdown of every codepoint that an emoji font would render as a colour bitmap. It makes no judgement. It has no model inside it, no detector, no score, and no network access. Run it on this text and it produces the same numbers it produced for me.</p>
+
+<div class="figs">
+  <div class="fig"><span class="n">694</span><span class="l">words</span></div>
+  <div class="fig"><span class="n">69</span><span class="l">sentences</span></div>
+  <div class="fig"><span class="n">7</span><span class="l">emoji codepoints</span></div>
+  <div class="fig"><span class="n">7</span><span class="l">stray backslashes</span></div>
+  <div class="fig"><span class="n">0.75</span><span class="l">sentence length CV</span></div>
+</div>
+
+<h2>Seven pictures where seven words would do</h2>
+
+<p>Every emoji in the advertisement is a section header. Not one appears in running prose. Each marks the top of a block the reader is meant to navigate by.</p>
+
+<div class="scroller"><table>
+<thead><tr><th>Glyph</th><th>Codepoint</th><th>Unicode name</th><th>Block</th><th>UTF-8</th><th>UTF-16</th><th>ASCII</th></tr></thead>
+<tbody>
+<tr><td class="glyph">&#127919;</td><td>U+1F3AF</td><td>DIRECT HIT</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
+<tr><td class="glyph">&#128295;</td><td>U+1F527</td><td>WRENCH</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
+<tr><td class="glyph">&#129302;</td><td>U+1F916</td><td>ROBOT FACE</td><td>Suppl. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
+<tr><td class="glyph">&#128170;</td><td>U+1F4AA</td><td>FLEXED BICEPS</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
+<tr><td class="glyph">&#128293;</td><td>U+1F525</td><td>FIRE</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
+<tr><td class="glyph">&#10024;</td><td>U+2728</td><td>SPARKLES</td><td>Dingbats</td><td>3 B</td><td>1 unit</td><td>?</td></tr>
+<tr><td class="glyph">&#128269;</td><td>U+1F50D</td><td>LEFT-POINTING MAGNIFYING GLASS</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
+</tbody>
+</table></div>
+
+<p>Six of the seven live outside the Basic Multilingual Plane, which is why each costs four bytes in UTF-8 and two code units in UTF-16. Twenty-seven bytes in total, 0.6 per cent of the file. None of them decomposes to text under Unicode normalisation. Strip the advertisement to ASCII and all seven become a question mark.</p>
+
+<p>Look at the last row. <code>U+1F50D LEFT-POINTING MAGNIFYING GLASS</code> is the header on the section headed "What We Look For", the part that explains how the company evaluates evidence.</p>
+
+<p class="pull">A company that sells structured search data labelled its section about searching with a picture of a search, in a codepoint that a retrieval engine reads as an unnamed pictograph.</p>
+
+<p>This is not a style complaint. It is the company's own domain. Their product exists because extracting structured meaning from a page is difficult and worth paying for. A section header is the strongest structural signal a document has. They spent seven of theirs on characters that carry no lexical content, in a document arguing that they can tell the difference between real signal and decoration.</p>
+
+<h2>Seven backslashes nobody read</h2>
+
+<p>The advertisement contains seven lines consisting of a single backslash, each terminating a bullet list. It is an escape character that survived a paste out of a content management system. The regular expression that finds it is one line: <code>(?m)^\s*\\\s*$</code>.</p>
+
+<p>Seven of them. In a document about verification, published under the company's own name, in the artefact a candidate reads first.</p>
+
+<h2>The constructions</h2>
+
+<p>The rig also counts surface constructions that are widely listed as machine-writing tells. I want to be precise about what this means, because the imprecision is where this kind of analysis usually goes wrong: none of these proves anything. Humans write all of them. I write some of them. A pattern count is a description, not a detector, and anyone who tells you otherwise is selling something.</p>
+
+<div class="scroller"><table>
+<thead><tr><th>Pattern</th><th>Count</th><th>First match</th></tr></thead>
+<tbody>
+<tr><td>emoji section header</td><td class="flag">7</td><td>&#127919; Why Join Us?</td></tr>
+<tr><td>stray trailing backslash</td><td class="flag">7</td><td>\</td></tr>
+<tr><td>"the hard part" framing</td><td>2</td><td>The Hard Parts</td></tr>
+<tr><td>"this isn't for you"</td><td>1</td><td>this isn't for you</td></tr>
+<tr><td>"X, not Y" fragment</td><td>1</td><td>&hellip;benchmark APIs and tools, not just describe them.</td></tr>
+<tr><td>rhetorical question header</td><td>1</td><td>&#127919; Why Join Us?</td></tr>
+<tr><td>em dash glyph</td><td>0</td><td>&mdash;</td></tr>
+</tbody>
+</table></div>
+
+<p>What the counts show is an advertisement assembled from the standard kit: the emoji-headed section, the rhetorical question, the "this isn't for everyone" filter, the hard-parts list. Each of those is a recognisable move. Used together, in this density, in a document whose whole argument is that its author can detect assembled writing, they are at minimum an irony worth measuring.</p>
+
+<h3>Rhythm, reported as the weak evidence it is</h3>
+
+<p>Sentence length averages 10.06 words, median 8, standard deviation 7.54, range 1 to 37. Coefficient of variation 0.75. Lag-1 autocorrelation +0.018, which is to say adjacent sentence lengths are essentially unrelated.</p>
+
+<p>Those figures are descriptive and nothing more. Sixty-nine sentences is a thin sample for dispersion statistics, bullet-point documents break sentence splitters in predictable ways, and no coefficient of variation has ever identified an author. I publish them because the rig produced them and suppressing an inconvenient measurement is the exact failure the advertisement claims to be hiring against. They support no conclusion. That is the finding.</p>
+
+<div class="limits">
+<h3>What this does not show</h3>
+<ul>
+<li>It does not show that a machine wrote the advertisement. No measurement in this piece can establish that, and I make no claim that it does.</li>
+<li>It does not show the company is bad at its job. Their product is a SERP API; this is their recruitment copy. These are different artefacts with different authors and different stakes.</li>
+<li>Sentence splitting is heuristic. A document this heavy in bullets and fragments will be mis-split in places, and every dispersion figure inherits that error.</li>
+<li>The pattern list is mine, assembled from published commentary on machine-writing tells. It is not validated against any labelled corpus, and a different list would produce different counts.</li>
+<li>One document, one run. Nothing here generalises to the company's published technical writing, which I have not measured.</li>
+</ul>
+</div>
+
+<h2>Reproduce it</h2>
+
+<p>Save the advertisement's plain text as <code>searchapi_ad.txt</code>, save the script below as <code>audit_rig.py</code>, and run <code>python3 audit_rig.py searchapi_ad.txt</code>. No dependencies beyond Python 3.10 and its standard library. The text I measured has SHA-256 <code class="hash">6b873986a8e18d34f4e448665721d0b332de9bdb2058db4ffc4be99ed84347da</code> over 4,503 UTF-8 bytes; if your hash matches, your numbers will match mine exactly.</p>
+
+<figure class="prewrap"><figcaption>audit_rig.py &mdash; sha256 11ddbdc748a995c52fd5a797c7acb8566d03f7a750c7526827d6295c864b5097</figcaption><pre>#!/usr/bin/env python3
+&quot;&quot;&quot;
+audit_rig.py - deterministic measurements over a plain-text job advertisement.
+
+Usage:  python3 audit_rig.py &lt;file.txt&gt; &gt; results.json
+
+Standard library only. No model, no network, no detector, no scoring.
+Every number below is a count or a standard statistic over the input bytes.
+Run it on any text and it will produce the same numbers on any machine.
+&quot;&quot;&quot;
+import json, re, statistics, sys, unicodedata, hashlib
+
+WORD = re.compile(r&quot;[A-Za-z0-9]+(?:[&#x27;’-][A-Za-z0-9]+)*&quot;)
+
+# Codepoint ranges normally rendered as colour bitmaps by an emoji font,
+# plus the variation selector and ZWJ that bind sequences together.
+EMOJI_RANGES = [
+    (0x1F300, 0x1FAFF), (0x2600, 0x27BF), (0x2B00, 0x2BFF),
+    (0x1F000, 0x1F2FF), (0xFE00, 0xFE0F), (0x200D, 0x200D),
+]
+
+def is_emojiish(ch):
+    cp = ord(ch)
+    return any(lo &lt;= cp &lt;= hi for lo, hi in EMOJI_RANGES)
+
+def block_of(cp):
+    # Coarse block attribution, sufficient to name where a codepoint lives.
+    blocks = [
+        (0x200D, 0x200D, &quot;General Punctuation (ZWJ)&quot;),
+        (0x2600, 0x26FF, &quot;Miscellaneous Symbols&quot;),
+        (0x2700, 0x27BF, &quot;Dingbats&quot;),
+        (0x2B00, 0x2BFF, &quot;Miscellaneous Symbols and Arrows&quot;),
+        (0xFE00, 0xFE0F, &quot;Variation Selectors&quot;),
+        (0x1F300, 0x1F5FF, &quot;Miscellaneous Symbols and Pictographs&quot;),
+        (0x1F600, 0x1F64F, &quot;Emoticons&quot;),
+        (0x1F680, 0x1F6FF, &quot;Transport and Map Symbols&quot;),
+        (0x1F900, 0x1F9FF, &quot;Supplemental Symbols and Pictographs&quot;),
+        (0x1FA70, 0x1FAFF, &quot;Symbols and Pictographs Extended-A&quot;),
+    ]
+    for lo, hi, name in blocks:
+        if lo &lt;= cp &lt;= hi:
+            return name
+    return &quot;unassigned in this table&quot;
+
+def emoji_report(text):
+    rows, order = [], []
+    for i, ch in enumerate(text):
+        if not is_emojiish(ch):
+            continue
+        cp = ord(ch)
+        rows.append({
+            &quot;char_index&quot;: i,
+            &quot;codepoint&quot;: f&quot;U+{cp:04X}&quot;,
+            &quot;unicode_name&quot;: unicodedata.name(ch, &quot;(no name)&quot;),
+            &quot;general_category&quot;: unicodedata.category(ch),
+            &quot;block&quot;: block_of(cp),
+            &quot;utf8_bytes&quot;: len(ch.encode(&quot;utf-8&quot;)),
+            &quot;utf16_code_units&quot;: len(ch.encode(&quot;utf-16-le&quot;)) // 2,
+            &quot;is_astral&quot;: cp &gt; 0xFFFF,
+            &quot;nfkd_decomposes_to_text&quot;: unicodedata.normalize(&quot;NFKD&quot;, ch) != ch,
+            &quot;ascii_fallback&quot;: ch.encode(&quot;ascii&quot;, &quot;replace&quot;).decode(&quot;ascii&quot;),
+        })
+        order.append(f&quot;U+{cp:04X}&quot;)
+    return rows, order
+
+def sentences(text):
+    body = &quot; &quot;.join(l.strip() for l in text.splitlines() if l.strip())
+    body = re.sub(r&quot;\s+&quot;, &quot; &quot;, body)
+    parts = re.split(r&#x27;(?&lt;=[.!?])\s+(?=[A-Z0-9&quot;“(])&#x27;, body)
+    return [p.strip() for p in parts if WORD.search(p)]
+
+def lag1(seq):
+    if len(seq) &lt; 3: return None
+    m = statistics.fmean(seq)
+    den = sum((x - m) ** 2 for x in seq)
+    if den == 0: return None
+    return sum((seq[i] - m) * (seq[i+1] - m) for i in range(len(seq)-1)) / den
+
+# Constructions widely listed as machine-writing tells. Each is a surface
+# pattern, not a verdict: a human can and does write every one of them.
+TELLS = {
+    &quot;not_just_construction&quot;:      r&quot;\b(?:it&#x27;?s|this is|we&#x27;?re)\s+not\s+just\b|\bnot\s+just\s+\w+,?\s+(?:but|it&#x27;?s)\b&quot;,
+    &quot;not_only_but_also&quot;:          r&quot;\bnot only\b.{0,80}\bbut also\b&quot;,
+    &quot;isnt_about_its_about&quot;:       r&quot;\bisn&#x27;?t\s+about\b.{0,60}\bit&#x27;?s\s+about\b&quot;,
+    &quot;this_isnt_for_you&quot;:          r&quot;\b(?:this|it)\s+(?:isn&#x27;?t|is not)\s+for\s+(?:you|everyone)\b&quot;,
+    &quot;emoji_section_header&quot;:       r&quot;(?m)^\s*[\U0001F300-\U0001FAFF☀-➿⬀-⯿]&quot;,
+    &quot;rhetorical_question_header&quot;: r&quot;(?m)^[^.\n]{0,80}\?\s*$&quot;,
+    &quot;ensuring_allowing_enabling&quot;: r&quot;\b(?:ensuring|allowing you to|enabling you to|making it)\b&quot;,
+    &quot;the_hard_part_framing&quot;:      r&quot;\bthe hard parts?\b|\bwhat makes (?:it|this) hard\b&quot;,
+    &quot;x_not_y_sentence_fragment&quot;:  r&quot;(?m)^\s*\w[^.\n]{0,60}, not [^.\n]{0,40}\.\s*$&quot;,
+    &quot;colon_why_x_matters&quot;:        r&quot;[^\n:]{3,60}:\s*why\s+[^\n]{2,60}\bmatters\b&quot;,
+    &quot;stray_trailing_backslash&quot;:   r&quot;(?m)^\s*\\\s*$&quot;,
+    &quot;em_dash_glyph&quot;:              r&quot;—&quot;,
+    &quot;double_hyphen_for_dash&quot;:     r&quot;\w--+\w|\s--+\s&quot;,
+    &quot;triadic_sentence_fragment&quot;:  r&quot;(?m)^[A-Z][^.\n]{0,40}\.\s+[A-Z][^.\n]{0,40}\.\s+[A-Z][^.\n]{0,40}\.\s*$&quot;,
+}
+
+def tells(text):
+    out = {}
+    for name, pat in TELLS.items():
+        found = [m.group(0)[:70].strip() for m in re.finditer(pat, text, re.I)]
+        if found:
+            out[name] = {&quot;count&quot;: len(found), &quot;first_match&quot;: found[0]}
+    return out
+
+def main(path):
+    raw = open(path, encoding=&quot;utf-8&quot;).read()
+    sents = sentences(raw)
+    lens = [len(WORD.findall(s)) for s in sents]
+    words = WORD.findall(raw)
+    rows, order = emoji_report(raw)
+    mean = statistics.fmean(lens)
+    ac = lag1(lens)
+    report = {
+        &quot;rig_version&quot;: &quot;1.0&quot;,
+        &quot;source_sha256&quot;: hashlib.sha256(raw.encode(&quot;utf-8&quot;)).hexdigest(),
+        &quot;source_bytes_utf8&quot;: len(raw.encode(&quot;utf-8&quot;)),
+        &quot;source_characters&quot;: len(raw),
+        &quot;words&quot;: len(words),
+        &quot;sentences&quot;: len(lens),
+        &quot;sentence_length&quot;: {
+            &quot;mean&quot;: round(mean, 2),
+            &quot;median&quot;: statistics.median(lens),
+            &quot;sd&quot;: round(statistics.pstdev(lens), 2),
+            &quot;min&quot;: min(lens), &quot;max&quot;: max(lens),
+            &quot;coefficient_of_variation&quot;: round(statistics.pstdev(lens) / mean, 3),
+            &quot;lag1_autocorrelation&quot;: round(ac, 3) if ac is not None else None,
+            &quot;sequence&quot;: lens,
+        },
+        &quot;emoji&quot;: {
+            &quot;total_codepoints&quot;: len(rows),
+            &quot;distinct_codepoints&quot;: len(set(order)),
+            &quot;utf8_bytes_spent&quot;: sum(r[&quot;utf8_bytes&quot;] for r in rows),
+            &quot;share_of_source_bytes_pct&quot;: round(100 * sum(r[&quot;utf8_bytes&quot;] for r in rows) / len(raw.encode(&quot;utf-8&quot;)), 3),
+            &quot;codepoints&quot;: rows,
+        },
+        &quot;machine_writing_tells_present&quot;: tells(raw),
+        &quot;limits&quot;: [
+            &quot;Every figure is a count or a standard statistic. None is a detector.&quot;,
+            &quot;No pattern here proves a machine wrote the text; humans write all of them.&quot;,
+            &quot;Sentence splitting is heuristic and will mis-split unusual punctuation.&quot;,
+            &quot;A short sample gives unstable dispersion figures. Treat them as descriptive.&quot;,
+        ],
+    }
+    json.dump(report, sys.stdout, indent=2, ensure_ascii=False)
+    print()
+
+if __name__ == &quot;__main__&quot;:
+    main(sys.argv[1])
+</pre></figure>
+
+<h2>Why bother</h2>
+
+<p>Because the advertisement is right. Coding the test does take longer than writing the opinion, and the discipline it asks for is real and rare. Everything above took one evening and runs on a standard library, and it still produced a finding the authors would not have enjoyed and almost certainly did not know.</p>
+
+<p>That is the whole argument for measuring things. Not that measurement is clever, but that it is cheap, and that the cost of not doing it is publishing a document about rigour with seven unproofed escape characters in it and a picture of a magnifying glass where the word "search" would have worked.</p>
+
+<footer>
+<p><strong>Method and provenance.</strong> The measurement script was generated with AI assistance against a specification I wrote, then read line by line, run, and checked by me. Every figure quoted above was read back out of the JSON the script emitted, and the Unicode names and block attributions were confirmed against Python's <code>unicodedata</code> tables. The advertisement text is the company's, quoted only in fragments; it is not reproduced here.</p>
+<p><strong>Known gap.</strong> Nothing in this piece has been through independent review. It is one person's measurement of one document, published with its method attached so that anyone who disagrees can run it and say where I went wrong.</p>
+<p><strong>Version.</strong> v1.0, 31 October 2026. Rig v1.0.</p>
+</footer>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+{
+  "rig_version": "1.0",
+  "source_sha256": "6b873986a8e18d34f4e448665721d0b332de9bdb2058db4ffc4be99ed84347da",
+  "source_bytes_utf8": 4503,
+  "source_characters": 4483,
+  "words": 694,
+  "sentences": 69,
+  "sentence_length": {
+    "mean": 10.06,
+    "median": 8,
+    "sd": 7.54,
+    "min": 1,
+    "max": 37,
+    "coefficient_of_variation": 0.75,
+    "lag1_autocorrelation": 0.018,
+    "sequence": [
+      15,
+      19,
+      11,
+      13,
+      31,
+      19,
+      6,
+      5,
+      11,
+      3,
+      11,
+      2,
+      11,
+      4,
+      9,
+      2,
+      12,
+      3,
+      21,
+      12,
+      14,
+      30,
+      14,
+      8,
+      17,
+      13,
+      4,
+      13,
+      4,
+      6,
+      3,
+      4,
+      6,
+      7,
+      8,
+      8,
+      21,
+      9,
+      10,
+      4,
+      4,
+      8,
+      3,
+      8,
+      13,
+      1,
+      25,
+      10,
+      2,
+      8,
+      5,
+      11,
+      6,
+      7,
+      1,
+      9,
+      4,
+      37,
+      6,
+      32,
+      11,
+      5,
+      8,
+      9,
+      3,
+      8,
+      5,
+      12,
+      10
+    ]
+  },
+  "emoji": {
+    "total_codepoints": 7,
+    "distinct_codepoints": 7,
+    "utf8_bytes_spent": 27,
+    "share_of_source_bytes_pct": 0.6,
+    "codepoints": [
+      {
+        "char_index": 819,
+        "codepoint": "U+1F3AF",
+        "unicode_name": "DIRECT HIT",
+        "general_category": "So",
+        "block": "Miscellaneous Symbols and Pictographs",
+        "utf8_bytes": 4,
+        "utf16_code_units": 2,
+        "is_astral": true,
+        "nfkd_decomposes_to_text": false,
+        "ascii_fallback": "?"
+      },
+      {
+        "char_index": 1261,
+        "codepoint": "U+1F527",
+        "unicode_name": "WRENCH",
+        "general_category": "So",
+        "block": "Miscellaneous Symbols and Pictographs",
+        "utf8_bytes": 4,
+        "utf16_code_units": 2,
+        "is_astral": true,
+        "nfkd_decomposes_to_text": false,
+        "ascii_fallback": "?"
+      },
+      {
+        "char_index": 1611,
+        "codepoint": "U+1F916",
+        "unicode_name": "ROBOT FACE",
+        "general_category": "So",
+        "block": "Supplemental Symbols and Pictographs",
+        "utf8_bytes": 4,
+        "utf16_code_units": 2,
+        "is_astral": true,
+        "nfkd_decomposes_to_text": false,
+        "ascii_fallback": "?"
+      },
+      {
+        "char_index": 1880,
+        "codepoint": "U+1F4AA",
+        "unicode_name": "FLEXED BICEPS",
+        "general_category": "So",
+        "block": "Miscellaneous Symbols and Pictographs",
+        "utf8_bytes": 4,
+        "utf16_code_units": 2,
+        "is_astral": true,
+        "nfkd_decomposes_to_text": false,
+        "ascii_fallback": "?"
+      },
+      {
+        "char_index": 2551,
+        "codepoint": "U+1F525",
+        "unicode_name": "FIRE",
+        "general_category": "So",
+        "block": "Miscellaneous Symbols and Pictographs",
+        "utf8_bytes": 4,
+        "utf16_code_units": 2,
+        "is_astral": true,
+        "nfkd_decomposes_to_text": false,
+        "ascii_fallback": "?"
+      },
+      {
+        "char_index": 3079,
+        "codepoint": "U+2728",
+        "unicode_name": "SPARKLES",
+        "general_category": "So",
+        "block": "Dingbats",
+        "utf8_bytes": 3,
+        "utf16_code_units": 1,
+        "is_astral": false,
+        "nfkd_decomposes_to_text": false,
+        "ascii_fallback": "?"
+      },
+      {
+        "char_index": 3922,
+        "codepoint": "U+1F50D",
+        "unicode_name": "LEFT-POINTING MAGNIFYING GLASS",
+        "general_category": "So",
+        "block": "Miscellaneous Symbols and Pictographs",
+        "utf8_bytes": 4,
+        "utf16_code_units": 2,
+        "is_astral": true,
+        "nfkd_decomposes_to_text": false,
+        "ascii_fallback": "?"
+      }
+    ]
+  },
+  "machine_writing_tells_present": {
+    "this_isnt_for_you": {
+      "count": 1,
+      "first_match": "this isn't for you"
+    },
+    "emoji_section_header": {
+      "count": 7,
+      "first_match": "🎯"
+    },
+    "rhetorical_question_header": {
+      "count": 1,
+      "first_match": "🎯 Why Join Us?"
+    },
+    "the_hard_part_framing": {
+      "count": 2,
+      "first_match": "The Hard Parts"
+    },
+    "x_not_y_sentence_fragment": {
+      "count": 1,
+      "first_match": "You write code to benchmark APIs and tools, not just describe the"
+    },
+    "stray_trailing_backslash": {
+      "count": 7,
+      "first_match": "\\"
+    }
+  },
+  "limits": [
+    "Every figure is a count or a standard statistic. None is a detector.",
+    "No pattern here proves a machine wrote the text; humans write all of them.",
+    "Sentence splitting is heuristic and will mis-split unusual punctuation.",
+    "A short sample gives unstable dispersion figures. Treat them as descriptive."
+  ]
+}

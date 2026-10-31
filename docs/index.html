@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Measurement rigs &mdash; Nathaniel Robertson</title>
+<meta name="description" content="Two reproducible measurement rigs and the write-ups built on them.">
+<meta name="author" content="Nathaniel Robertson">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;0,800;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{--paper:#f4f2ed;--ink:#1a1816;--ink-soft:#56504a;--rule:#d8d2c8;--slab:#eae5dc;--flag:#a8420d;
+ --display:'Spectral',Georgia,serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+ padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --paper:#15140f;--ink:#e8e3d8;--ink-soft:#9a9287;--rule:#3a362e;--slab:#1f1d17;--flag:#e8752f;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15140f;--ink:#e8e3d8;--ink-soft:#9a9287;--rule:#3a362e;--slab:#1f1d17;--flag:#e8752f;color-scheme:dark}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--display);font-size:1.0625rem;line-height:1.62}
+img{max-width:100%}
+.wrap{max-width:42rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));
+ padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:4rem 5rem}
+h1{font-size:clamp(2rem,6vw,2.8rem);line-height:1.1;font-weight:800;margin:0 0 .5rem;letter-spacing:-.02em;text-wrap:balance}
+.sub{color:var(--ink-soft);font-style:italic;font-size:1.15rem;margin:0 0 2.5rem;padding-bottom:1.3rem;border-bottom:2px solid var(--ink)}
+.item{display:block;text-decoration:none;color:inherit;border:1px solid var(--rule);background:var(--slab);
+ padding:1.3rem 1.4rem;margin-bottom:1.1rem}
+.item:hover,.item:focus-visible{border-color:var(--flag);outline:none}
+.item h2{font-size:1.3rem;margin:0 0 .4rem;font-weight:600;color:var(--flag)}
+.item p{margin:0;color:var(--ink-soft);font-size:.98rem;line-height:1.5}
+.item .meta{font-family:var(--mono);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;
+ color:var(--ink-soft);margin-top:.7rem;display:block}
+footer{margin-top:2.5rem;padding-top:1.3rem;border-top:1px solid var(--rule);
+ font-family:var(--mono);font-size:.74rem;line-height:1.7;color:var(--ink-soft)}
+footer a{color:var(--flag)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Measurement rigs</h1>
+<p class="sub">Two small things I measured, with the code and the raw data attached, including the results that were inconvenient.</p>
+
+<a class="item" href="dead-web/">
+<h2>What the dead web still publishes</h2>
+<p>Sitemaps and RSS have been declared obsolete for over a decade. 60 domains measured for availability, latency and freshness, and the one result in it I did not go looking for.</p>
+<span class="meta">31 October 2026 &middot; 60 domains &middot; rig and raw JSON in /dead-web</span>
+</a>
+
+<a class="item" href="magnifying-glass/">
+<h2>The magnifying glass problem</h2>
+<p>A job advertisement argues at length that its author can tell real research from AI slop. A Unicode and pattern audit of the advertisement itself.</p>
+<span class="meta">31 October 2026 &middot; 694 words measured &middot; rig and raw JSON in /ad-audit</span>
+</a>
+
+<footer>
+<p>Code MIT licensed. Prose &copy; Nathaniel Robertson 2026.<br>
+Scripts generated with AI assistance against my specifications, then read, run and checked by me. Neither piece has been independently reviewed; both say so.</p>
+</footer>
+</div>
+</body>
+</html>

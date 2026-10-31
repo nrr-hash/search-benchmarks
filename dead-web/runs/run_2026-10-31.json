@@ -1,0 +1,2594 @@
+{
+  "run_started_utc": "2026-10-31T18:57:55.971433+00:00",
+  "run_finished_utc": "2026-10-31T19:04:04.248321+00:00",
+  "seed_count": 60,
+  "user_agent": "deadtech-bench/1.0 (reproducible measurement; contact in the write-up)",
+  "timeout_s": 15,
+  "results": [
+    {
+      "domain": "bbc.co.uk",
+      "robots": {
+        "status": 200,
+        "seconds": 0.675,
+        "error": null,
+        "bytes": 4907,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.bbc.co.uk/sitemap.xml",
+          "https://www.bbc.co.uk/sitemaps/https-index-uk-archive.xml",
+          "https://www.bbc.co.uk/sitemaps/https-index-uk-news.xml",
+          "https://www.bbc.co.uk/food/sitemap.xml",
+          "https://www.bbc.co.uk/bitesize/sitemap/sitemapindex.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.bbc.co.uk/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.108,
+        "error": null,
+        "bytes": 745,
+        "parsed_kind": "sitemapindex",
+        "entries": 6,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.334,
+        "error": null,
+        "bytes": 811136
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "news"
+    },
+    {
+      "domain": "theguardian.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.327,
+        "error": null,
+        "bytes": 2873,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "http://www.theguardian.com/sitemaps/news.xml",
+          "http://www.theguardian.com/sitemaps/video.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "http://www.theguardian.com/sitemaps/news.xml",
+        "from_robots": true,
+        "status": 403,
+        "seconds": 0.029,
+        "error": "HTTPError 403",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.526,
+        "error": null,
+        "bytes": 1469507
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://www.theguardian.com/us/rss",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.125,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 130,
+        "youngest_item_days": 0.01
+      },
+      "category": "news"
+    },
+    {
+      "domain": "reuters.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.518,
+        "error": null,
+        "bytes": 4605,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.reuters.com/arc/outboundfeeds/sitemap-index/?outputType=xml",
+          "https://www.reuters.com/arc/outboundfeeds/sitemap-jp-index/?outputType=xml",
+          "https://www.reuters.com/arc/outboundfeeds/news-sitemap-index/?outputType=xml",
+          "https://www.reuters.com/plus/sitemap-index.xml",
+          "https://www.reuters.com/arc/outboundfeeds/sitemap-plj-index/?outputType=xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.reuters.com/arc/outboundfeeds/sitemap-index/?outputType=xml",
+        "from_robots": true,
+        "status": 401,
+        "seconds": 0.159,
+        "error": "HTTPError 401",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 401,
+        "seconds": 0.501,
+        "error": "HTTPError 401",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "news"
+    },
+    {
+      "domain": "apnews.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.155,
+        "error": null,
+        "bytes": 1378,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://apnews.com/ap-sitemap.xml",
+          "https://apnews.com/news-sitemap-content.xml",
+          "https://apnews.com/hubs-sitemap-content.xml",
+          "https://apnews.com/video-sitemap.xml",
+          "https://apnews.com/author-sitemap-content.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://apnews.com/ap-sitemap.xml",
+        "from_robots": true,
+        "status": 403,
+        "seconds": 0.15,
+        "error": "HTTPError 403",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.134,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "news"
+    },
+    {
+      "domain": "npr.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.637,
+        "error": null,
+        "bytes": 4780,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://googlecrawl.npr.org/standard/sitemap_index.xml",
+          "https://googlecrawl.npr.org/news/sitemap_news.xml",
+          "https://googlecrawl.npr.org/video/sitemap_index.xml",
+          "https://www.npr.org/live-updates/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://googlecrawl.npr.org/standard/sitemap_index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.256,
+        "error": null,
+        "bytes": 11376,
+        "parsed_kind": "sitemapindex",
+        "entries": 75,
+        "entries_with_lastmod": 74,
+        "youngest_lastmod_days": 898.83
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.88,
+        "error": null,
+        "bytes": 1346392
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://feeds.npr.org/1002/rss.xml",
+        "autodiscovered": true,
+        "status": 403,
+        "seconds": 0.321,
+        "error": "HTTPError 403",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "news"
+    },
+    {
+      "domain": "gov.uk",
+      "robots": {
+        "status": 200,
+        "seconds": 0.238,
+        "error": null,
+        "bytes": 1097,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.gov.uk/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.gov.uk/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.11,
+        "error": null,
+        "bytes": 4865,
+        "parsed_kind": "sitemapindex",
+        "entries": 36,
+        "entries_with_lastmod": 36,
+        "youngest_lastmod_days": 1.67
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.427,
+        "error": null,
+        "bytes": 85510
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "gov"
+    },
+    {
+      "domain": "canada.ca",
+      "robots": {
+        "status": null,
+        "seconds": 10.118,
+        "error": "URLError: <urlopen error [Errno 104] Connection reset by peer>",
+        "bytes": 0,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://canada.ca/sitemap.xml",
+        "from_robots": false,
+        "status": null,
+        "seconds": 10.316,
+        "error": "URLError: <urlopen error [Errno 104] Connection reset by peer>",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": null,
+        "seconds": 10.296,
+        "error": "URLError: <urlopen error [Errno 104] Connection reset by peer>",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "gov"
+    },
+    {
+      "domain": "europa.eu",
+      "robots": {
+        "status": 200,
+        "seconds": 0.685,
+        "error": null,
+        "bytes": 4930,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://europa.eu/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.831,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.889,
+        "error": null,
+        "bytes": 18186
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "gov"
+    },
+    {
+      "domain": "irs.gov",
+      "robots": {
+        "status": 200,
+        "seconds": 0.421,
+        "error": null,
+        "bytes": 3899,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.irs.gov/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.irs.gov/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.424,
+        "error": null,
+        "bytes": 1771,
+        "parsed_kind": "sitemapindex",
+        "entries": 12,
+        "entries_with_lastmod": 12,
+        "youngest_lastmod_days": 0.87
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.495,
+        "error": null,
+        "bytes": 147895
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "gov"
+    },
+    {
+      "domain": "nhs.uk",
+      "robots": {
+        "status": 200,
+        "seconds": 1.024,
+        "error": null,
+        "bytes": 2674,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.nhs.uk/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.nhs.uk/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.423,
+        "error": null,
+        "bytes": 1180,
+        "parsed_kind": "sitemapindex",
+        "entries": 8,
+        "entries_with_lastmod": 7,
+        "youngest_lastmod_days": 0.05
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.999,
+        "error": null,
+        "bytes": 31464
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "gov"
+    },
+    {
+      "domain": "developer.mozilla.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.222,
+        "error": null,
+        "bytes": 119,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://developer.mozilla.org/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://developer.mozilla.org/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.187,
+        "error": null,
+        "bytes": 1282,
+        "parsed_kind": "sitemapindex",
+        "entries": 10,
+        "entries_with_lastmod": 10,
+        "youngest_lastmod_days": 0.79
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.299,
+        "error": null,
+        "bytes": 121801
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://developer.mozilla.org/en-US/blog/rss.xml",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.133,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 71,
+        "youngest_item_days": 138.79
+      },
+      "category": "devdocs"
+    },
+    {
+      "domain": "docs.python.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.131,
+        "error": null,
+        "bytes": 517,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://docs.python.org/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://docs.python.org/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.156,
+        "error": null,
+        "bytes": 13226,
+        "parsed_kind": "urlset",
+        "entries": 7,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.268,
+        "error": null,
+        "bytes": 19632
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "devdocs"
+    },
+    {
+      "domain": "kubernetes.io",
+      "robots": {
+        "status": 200,
+        "seconds": 0.144,
+        "error": null,
+        "bytes": 148,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://kubernetes.io/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://kubernetes.io/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.251,
+        "error": null,
+        "bytes": 2012,
+        "parsed_kind": "sitemapindex",
+        "entries": 17,
+        "entries_with_lastmod": 17,
+        "youngest_lastmod_days": 0.22
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.14,
+        "error": null,
+        "bytes": 41608
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": "https://kubernetes.io/feed.xml",
+        "autodiscovered": false,
+        "status": 200,
+        "seconds": 0.179,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 50,
+        "youngest_item_days": 2.58
+      },
+      "category": "devdocs"
+    },
+    {
+      "domain": "docs.djangoproject.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.161,
+        "error": null,
+        "bytes": 17922,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://docs.djangoproject.com/sitemap.xml",
+        "from_robots": false,
+        "status": 200,
+        "seconds": 0.302,
+        "error": null,
+        "bytes": 1031,
+        "parsed_kind": "sitemapindex",
+        "entries": 12,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.384,
+        "error": null,
+        "bytes": 54129
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "devdocs"
+    },
+    {
+      "domain": "nodejs.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.146,
+        "error": null,
+        "bytes": 199,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://nodejs.org/sitemap.xml",
+          "https://nodejs.org/learn/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://nodejs.org/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.222,
+        "error": null,
+        "bytes": 1656609,
+        "parsed_kind": "urlset",
+        "entries": 1666,
+        "entries_with_lastmod": 1666,
+        "youngest_lastmod_days": 1.11
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.48,
+        "error": null,
+        "bytes": 530393
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://nodejs.org/en/feed/blog.xml",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.315,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 1068,
+        "youngest_item_days": 1.96
+      },
+      "category": "devdocs"
+    },
+    {
+      "domain": "stripe.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.226,
+        "error": null,
+        "bytes": 643,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://stripe.com/sitemap/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://stripe.com/sitemap/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.403,
+        "error": null,
+        "bytes": 805,
+        "parsed_kind": "sitemapindex",
+        "entries": 9,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.279,
+        "error": null,
+        "bytes": 673658
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "saas"
+    },
+    {
+      "domain": "cloudflare.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.459,
+        "error": null,
+        "bytes": 1099,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.cloudflare.com/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.cloudflare.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.376,
+        "error": null,
+        "bytes": 1634334,
+        "parsed_kind": "urlset",
+        "entries": 1014,
+        "entries_with_lastmod": 1014,
+        "youngest_lastmod_days": 0.79
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.547,
+        "error": null,
+        "bytes": 1334522
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "saas"
+    },
+    {
+      "domain": "twilio.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.478,
+        "error": null,
+        "bytes": 976,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://twilio.com/sitemap.xml",
+        "from_robots": false,
+        "status": 200,
+        "seconds": 0.419,
+        "error": null,
+        "bytes": 1107,
+        "parsed_kind": "sitemapindex",
+        "entries": 7,
+        "entries_with_lastmod": 7,
+        "youngest_lastmod_days": 319.29
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.514,
+        "error": null,
+        "bytes": 685349
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "saas"
+    },
+    {
+      "domain": "atlassian.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.292,
+        "error": null,
+        "bytes": 1292,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.atlassian.com/sitemap.xml",
+          "https://www.atlassian.com/blog/post-sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.atlassian.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.213,
+        "error": null,
+        "bytes": 825,
+        "parsed_kind": "sitemapindex",
+        "entries": 8,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.859,
+        "error": null,
+        "bytes": 2083003
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "saas"
+    },
+    {
+      "domain": "hubspot.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.396,
+        "error": null,
+        "bytes": 12606,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://hubspot.com/sitemap.xml",
+        "from_robots": false,
+        "status": 200,
+        "seconds": 0.585,
+        "error": null,
+        "bytes": 551639,
+        "parsed_kind": "urlset",
+        "entries": 3002,
+        "entries_with_lastmod": 3002,
+        "youngest_lastmod_days": 9.79
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.78,
+        "error": null,
+        "bytes": 643402
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": "https://hubspot.com/feed",
+        "autodiscovered": false,
+        "status": 200,
+        "seconds": 0.799,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 50,
+        "youngest_item_days": 2.29
+      },
+      "category": "saas"
+    },
+    {
+      "domain": "etsy.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.425,
+        "error": null,
+        "bytes": 52819,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://etsy.com/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.394,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.321,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "ecom"
+    },
+    {
+      "domain": "ikea.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.28,
+        "error": null,
+        "bytes": 4089,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.ikea.com/sitemaps/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.ikea.com/sitemaps/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.189,
+        "error": null,
+        "bytes": 179482,
+        "parsed_kind": "sitemapindex",
+        "entries": 2264,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.652,
+        "error": null,
+        "bytes": 573910
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "ecom"
+    },
+    {
+      "domain": "argos.co.uk",
+      "robots": {
+        "status": 403,
+        "seconds": 0.232,
+        "error": "HTTPError 403",
+        "bytes": 0,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://argos.co.uk/sitemap.xml",
+        "from_robots": false,
+        "status": 403,
+        "seconds": 0.199,
+        "error": "HTTPError 403",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.339,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "ecom"
+    },
+    {
+      "domain": "johnlewis.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.542,
+        "error": null,
+        "bytes": 1406,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.johnlewis.com/siteindex.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.johnlewis.com/siteindex.xml",
+        "from_robots": true,
+        "status": null,
+        "seconds": 15.137,
+        "error": "TimeoutError: The read operation timed out",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": null,
+        "seconds": 15.359,
+        "error": "TimeoutError: The read operation timed out",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "ecom"
+    },
+    {
+      "domain": "wayfair.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.753,
+        "error": null,
+        "bytes": 3224,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.wayfair.com/seo-category-index.xml",
+          "https://www.wayfair.com/seo-keyword-index.xml",
+          "https://www.wayfair.com/seo-sb0-index.xml",
+          "https://www.wayfair.com/seo-sb1-index.xml",
+          "https://www.wayfair.com/seo-sb2-index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.wayfair.com/seo-category-index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.2,
+        "error": null,
+        "bytes": 200,
+        "parsed_kind": "sitemapindex",
+        "entries": 1,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 1.466,
+        "error": null,
+        "bytes": 1164175
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "ecom"
+    },
+    {
+      "domain": "substack.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.174,
+        "error": null,
+        "bytes": 585,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://substack.com/sitemap.xml",
+          "https://substack.com/news_sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://substack.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.118,
+        "error": null,
+        "bytes": 3833,
+        "parsed_kind": "sitemapindex",
+        "entries": 51,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.581,
+        "error": null,
+        "bytes": 215098
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "blogplat"
+    },
+    {
+      "domain": "medium.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.17,
+        "error": null,
+        "bytes": 884,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://medium.com/sitemap/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://medium.com/sitemap/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.374,
+        "error": null,
+        "bytes": 3000000,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.132,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "blogplat"
+    },
+    {
+      "domain": "ghost.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.317,
+        "error": null,
+        "bytes": 224,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://ghost.org/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://ghost.org/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.142,
+        "error": null,
+        "bytes": 2551,
+        "parsed_kind": "sitemapindex",
+        "entries": 20,
+        "entries_with_lastmod": 20,
+        "youngest_lastmod_days": 0.83
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.145,
+        "error": null,
+        "bytes": 123106
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "blogplat"
+    },
+    {
+      "domain": "wordpress.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.126,
+        "error": null,
+        "bytes": 1387,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://wordpress.com/sitemap.xml",
+          "https://wordpress.com/news-sitemap.xml",
+          "https://wordpress.com/go/sitemap.xml",
+          "https://wordpress.com/blog/sitemap.xml",
+          "https://wordpress.com/support/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://wordpress.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.118,
+        "error": null,
+        "bytes": 395,
+        "parsed_kind": "sitemapindex",
+        "entries": 1,
+        "entries_with_lastmod": 1,
+        "youngest_lastmod_days": 0.06
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.181,
+        "error": null,
+        "bytes": 337285
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://wordpress.com/blog/feed/",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.155,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 10,
+        "youngest_item_days": 0.71
+      },
+      "category": "blogplat"
+    },
+    {
+      "domain": "dev.to",
+      "robots": {
+        "status": 200,
+        "seconds": 0.144,
+        "error": null,
+        "bytes": 450,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://dev.to/sitemap-index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://dev.to/sitemap-index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.147,
+        "error": null,
+        "bytes": 23002,
+        "parsed_kind": "sitemapindex",
+        "entries": 253,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.158,
+        "error": null,
+        "bytes": 293826
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://dev.to/feed",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.194,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 12,
+        "youngest_item_days": 0.0
+      },
+      "category": "blogplat"
+    },
+    {
+      "domain": "news.ycombinator.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.303,
+        "error": null,
+        "bytes": 243,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://news.ycombinator.com/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.652,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.311,
+        "error": null,
+        "bytes": 34687
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://news.ycombinator.com/rss",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.333,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 30,
+        "youngest_item_days": 0.04
+      },
+      "category": "forum"
+    },
+    {
+      "domain": "stackoverflow.com",
+      "robots": {
+        "status": 418,
+        "seconds": 0.154,
+        "error": "HTTPError 418",
+        "bytes": 0,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://stackoverflow.com/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.116,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.336,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "forum"
+    },
+    {
+      "domain": "reddit.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.263,
+        "error": null,
+        "bytes": 538,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://reddit.com/sitemap.xml",
+        "from_robots": false,
+        "status": 200,
+        "seconds": 0.358,
+        "error": null,
+        "bytes": 8417,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.264,
+        "error": null,
+        "bytes": 8406
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "forum"
+    },
+    {
+      "domain": "lobste.rs",
+      "robots": {
+        "status": 200,
+        "seconds": 0.25,
+        "error": null,
+        "bytes": 653,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://lobste.rs/sitemap.xml.gz"
+        ]
+      },
+      "sitemap": {
+        "url": "https://lobste.rs/sitemap.xml.gz",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.239,
+        "error": null,
+        "bytes": 245,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.21,
+        "error": null,
+        "bytes": 57278
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://lobste.rs/rss",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.109,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 25,
+        "youngest_item_days": 0.16
+      },
+      "category": "forum"
+    },
+    {
+      "domain": "discourse.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.429,
+        "error": null,
+        "bytes": 61,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.discourse.org/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.discourse.org/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.348,
+        "error": null,
+        "bytes": 8046,
+        "parsed_kind": "urlset",
+        "entries": 98,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.336,
+        "error": null,
+        "bytes": 113490
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "forum"
+    },
+    {
+      "domain": "mit.edu",
+      "robots": {
+        "status": 200,
+        "seconds": 0.597,
+        "error": null,
+        "bytes": 199,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://mit.edu/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.591,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.659,
+        "error": null,
+        "bytes": 48154
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "uni"
+    },
+    {
+      "domain": "ox.ac.uk",
+      "robots": {
+        "status": 403,
+        "seconds": 0.867,
+        "error": "HTTPError 403",
+        "bytes": 0,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://ox.ac.uk/sitemap.xml",
+        "from_robots": false,
+        "status": 403,
+        "seconds": 0.786,
+        "error": "HTTPError 403",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.692,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "uni"
+    },
+    {
+      "domain": "stanford.edu",
+      "robots": {
+        "status": 200,
+        "seconds": 0.649,
+        "error": null,
+        "bytes": 219,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.stanford.edu/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.stanford.edu/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.355,
+        "error": null,
+        "bytes": 4505,
+        "parsed_kind": "urlset",
+        "entries": 27,
+        "entries_with_lastmod": 27,
+        "youngest_lastmod_days": 0.95
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.817,
+        "error": null,
+        "bytes": 787131
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "uni"
+    },
+    {
+      "domain": "cam.ac.uk",
+      "robots": {
+        "status": 200,
+        "seconds": 0.569,
+        "error": null,
+        "bytes": 2027,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://cam.ac.uk/sitemap.xml",
+        "from_robots": false,
+        "status": 200,
+        "seconds": 0.787,
+        "error": null,
+        "bytes": 434,
+        "parsed_kind": "sitemapindex",
+        "entries": 2,
+        "entries_with_lastmod": 2,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 1.009,
+        "error": null,
+        "bytes": 112065
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": "https://cam.ac.uk/feed",
+        "autodiscovered": false,
+        "status": 200,
+        "seconds": 1.033,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 15,
+        "youngest_item_days": 3.38
+      },
+      "category": "uni"
+    },
+    {
+      "domain": "ethz.ch",
+      "robots": {
+        "status": 404,
+        "seconds": 0.601,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://ethz.ch/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.509,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 1.006,
+        "error": null,
+        "bytes": 68263
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "uni"
+    },
+    {
+      "domain": "arxiv.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.111,
+        "error": null,
+        "bytes": 5854,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://arxiv.org/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.113,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.119,
+        "error": null,
+        "bytes": 37290
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "science"
+    },
+    {
+      "domain": "nature.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.594,
+        "error": null,
+        "bytes": 2780,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.nature.com/sitemap.xml",
+          "https://www.nature.com/subjects/sitemap.xml",
+          "https://www.nature.com/naturecareers/sitemapindex.xml",
+          "https://www.nature.com/latest-news/sitemap.xml",
+          "https://www.nature.com/sitemap-subjects-index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.nature.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.2,
+        "error": null,
+        "bytes": 5481303,
+        "parsed_kind": "sitemapindex",
+        "entries": 40548,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 1.989,
+        "error": null,
+        "bytes": 238390
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://www.nature.com/nature.rss",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.147,
+        "error": null,
+        "parsed_kind": "RDF",
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "science"
+    },
+    {
+      "domain": "plos.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.177,
+        "error": null,
+        "bytes": 166,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://plos.org/sitemap_index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://plos.org/sitemap_index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.564,
+        "error": null,
+        "bytes": 2368,
+        "parsed_kind": "sitemapindex",
+        "entries": 17,
+        "entries_with_lastmod": 17,
+        "youngest_lastmod_days": 15.14
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.232,
+        "error": null,
+        "bytes": 254956
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": "https://plos.org/feed",
+        "autodiscovered": false,
+        "status": 200,
+        "seconds": 0.342,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "science"
+    },
+    {
+      "domain": "biorxiv.org",
+      "robots": {
+        "status": 200,
+        "seconds": 0.304,
+        "error": null,
+        "bytes": 3636,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://biorxiv.org/sitemap.xml",
+        "from_robots": false,
+        "status": 200,
+        "seconds": 0.351,
+        "error": null,
+        "bytes": 1268,
+        "parsed_kind": "sitemapindex",
+        "entries": 10,
+        "entries_with_lastmod": 10,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.347,
+        "error": null,
+        "bytes": 31998
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": "https://biorxiv.org/rss.xml",
+        "autodiscovered": false,
+        "status": 200,
+        "seconds": 0.334,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 10,
+        "youngest_item_days": 4824.83
+      },
+      "category": "science"
+    },
+    {
+      "domain": "pubmed.ncbi.nlm.nih.gov",
+      "robots": {
+        "status": 200,
+        "seconds": 0.105,
+        "error": null,
+        "bytes": 1341,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://pubmed.ncbi.nlm.nih.gov/sitemap?p=index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/sitemap?p=index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.122,
+        "error": null,
+        "bytes": 104,
+        "parsed_kind": "sitemapindex",
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.155,
+        "error": null,
+        "bytes": 42377
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "science"
+    },
+    {
+      "domain": "openai.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.143,
+        "error": null,
+        "bytes": 98,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://openai.com/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://openai.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.248,
+        "error": null,
+        "bytes": 3851,
+        "parsed_kind": "sitemapindex",
+        "entries": 43,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.137,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "aivendor"
+    },
+    {
+      "domain": "anthropic.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.318,
+        "error": null,
+        "bytes": 71,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.anthropic.com/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.anthropic.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.179,
+        "error": null,
+        "bytes": 75739,
+        "parsed_kind": "urlset",
+        "entries": 588,
+        "entries_with_lastmod": 568,
+        "youngest_lastmod_days": 1.07
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.369,
+        "error": null,
+        "bytes": 173070
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "aivendor"
+    },
+    {
+      "domain": "huggingface.co",
+      "robots": {
+        "status": 200,
+        "seconds": 0.142,
+        "error": null,
+        "bytes": 68,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://huggingface.co/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://huggingface.co/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.151,
+        "error": null,
+        "bytes": 692,
+        "parsed_kind": "sitemapindex",
+        "entries": 7,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.124,
+        "error": null,
+        "bytes": 177936
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://huggingface.co/blog/feed.xml",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.145,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 894,
+        "youngest_item_days": 1.05
+      },
+      "category": "aivendor"
+    },
+    {
+      "domain": "mistral.ai",
+      "robots": {
+        "status": 200,
+        "seconds": 0.122,
+        "error": null,
+        "bytes": 70,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://mistral.ai/sitemap-index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://mistral.ai/sitemap-index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.13,
+        "error": null,
+        "bytes": 224,
+        "parsed_kind": "sitemapindex",
+        "entries": 1,
+        "entries_with_lastmod": 1,
+        "youngest_lastmod_days": 2.06
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.194,
+        "error": null,
+        "bytes": 318503
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://mistral.ai/news/rss",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.15,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 93,
+        "youngest_item_days": 2.29
+      },
+      "category": "aivendor"
+    },
+    {
+      "domain": "cohere.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.261,
+        "error": null,
+        "bytes": 352,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://cohere.com/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://cohere.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.134,
+        "error": null,
+        "bytes": 128177,
+        "parsed_kind": "urlset",
+        "entries": 869,
+        "entries_with_lastmod": 869,
+        "youngest_lastmod_days": 4.79
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.218,
+        "error": null,
+        "bytes": 596248
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "aivendor"
+    },
+    {
+      "domain": "searchapi.io",
+      "robots": {
+        "status": 200,
+        "seconds": 0.37,
+        "error": null,
+        "bytes": 130,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://searchapi.io/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.36,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.541,
+        "error": null,
+        "bytes": 901515
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "serpvendor"
+    },
+    {
+      "domain": "serpapi.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.126,
+        "error": null,
+        "bytes": 120,
+        "declares_sitemap": false,
+        "declared_sitemaps": []
+      },
+      "sitemap": {
+        "url": "https://serpapi.com/sitemap.xml",
+        "from_robots": false,
+        "status": 404,
+        "seconds": 0.133,
+        "error": "HTTPError 404",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.146,
+        "error": null,
+        "bytes": 176785
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://serpapi.com/blog/rss/",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.17,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 15,
+        "youngest_item_days": 3.99
+      },
+      "category": "serpvendor"
+    },
+    {
+      "domain": "brightdata.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.143,
+        "error": null,
+        "bytes": 609,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://brightdata.com/sitemap_index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://brightdata.com/sitemap_index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.67,
+        "error": null,
+        "bytes": 1513,
+        "parsed_kind": "sitemapindex",
+        "entries": 10,
+        "entries_with_lastmod": 10,
+        "youngest_lastmod_days": 1.37
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.2,
+        "error": null,
+        "bytes": 292528
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "serpvendor"
+    },
+    {
+      "domain": "zenrows.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.498,
+        "error": null,
+        "bytes": 1250,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.zenrows.com/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.zenrows.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.267,
+        "error": null,
+        "bytes": 1304,
+        "parsed_kind": "sitemapindex",
+        "entries": 10,
+        "entries_with_lastmod": 10,
+        "youngest_lastmod_days": 0.79
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.385,
+        "error": null,
+        "bytes": 154051
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "serpvendor"
+    },
+    {
+      "domain": "scrapingbee.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.688,
+        "error": null,
+        "bytes": 72,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.scrapingbee.com/sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.scrapingbee.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.39,
+        "error": null,
+        "bytes": 156114,
+        "parsed_kind": "urlset",
+        "entries": 1139,
+        "entries_with_lastmod": 1139,
+        "youngest_lastmod_days": 1.26
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.697,
+        "error": null,
+        "bytes": 413841
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": "https://scrapingbee.com/index.xml",
+        "autodiscovered": false,
+        "status": 200,
+        "seconds": 0.575,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 1136,
+        "youngest_item_days": 739919.79
+      },
+      "category": "serpvendor"
+    },
+    {
+      "domain": "bloomberg.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.405,
+        "error": null,
+        "bytes": 10640,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.bloomberg.com/sitemaps/news/index.xml",
+          "https://www.bloomberg.com/sitemaps/news/latest.xml",
+          "https://www.bloomberg.com/sitemaps/collections/index.xml",
+          "https://www.bloomberg.com/sitemaps/media/video/index.xml",
+          "https://www.bloomberg.com/sitemaps/media/audio/index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.bloomberg.com/sitemaps/news/index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.205,
+        "error": null,
+        "bytes": 53994,
+        "parsed_kind": "sitemapindex",
+        "entries": 430,
+        "entries_with_lastmod": 430,
+        "youngest_lastmod_days": 0.79
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.349,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "retailnews"
+    },
+    {
+      "domain": "ft.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.365,
+        "error": null,
+        "bytes": 1597,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.ft.com/sitemaps/index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.ft.com/sitemaps/index.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.819,
+        "error": null,
+        "bytes": 35101,
+        "parsed_kind": "sitemapindex",
+        "entries": 291,
+        "entries_with_lastmod": 291,
+        "youngest_lastmod_days": 3277.19
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.303,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "retailnews"
+    },
+    {
+      "domain": "wsj.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.449,
+        "error": null,
+        "bytes": 4298,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.wsj.com/sitemap.xml",
+          "https://www.wsj.com/wsjsitemaps/wsj_google_news.xml",
+          "https://www.wsj.com/wsj_video_recent.xml",
+          "https://www.wsj.com/sitemap_topics.xml",
+          "https://www.wsj.com/sitemaps/web/wsj/en/sitemap_wsj_en_index.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.wsj.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.23,
+        "error": null,
+        "bytes": 45194,
+        "parsed_kind": "urlset",
+        "entries": 223,
+        "entries_with_lastmod": 223,
+        "youngest_lastmod_days": 0.0
+      },
+      "homepage": {
+        "status": 401,
+        "seconds": 0.346,
+        "error": "HTTPError 401",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "retailnews"
+    },
+    {
+      "domain": "economist.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.34,
+        "error": null,
+        "bytes": 2664,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://www.economist.com/sitemap.xml",
+          "https://www.economist.com/googlenews.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://www.economist.com/sitemap.xml",
+        "from_robots": true,
+        "status": 403,
+        "seconds": 0.108,
+        "error": "HTTPError 403",
+        "bytes": 0,
+        "parsed_kind": null,
+        "entries": 0,
+        "entries_with_lastmod": 0,
+        "youngest_lastmod_days": null
+      },
+      "homepage": {
+        "status": 403,
+        "seconds": 0.346,
+        "error": "HTTPError 403",
+        "bytes": 0
+      },
+      "feed_autodiscovered": false,
+      "feed": {
+        "url": null,
+        "autodiscovered": false,
+        "status": null,
+        "seconds": null,
+        "error": "no feed found",
+        "parsed_kind": null,
+        "items": 0,
+        "youngest_item_days": null
+      },
+      "category": "retailnews"
+    },
+    {
+      "domain": "techcrunch.com",
+      "robots": {
+        "status": 200,
+        "seconds": 0.116,
+        "error": null,
+        "bytes": 710,
+        "declares_sitemap": true,
+        "declared_sitemaps": [
+          "https://techcrunch.com/sitemap.xml",
+          "https://techcrunch.com/news-sitemap.xml"
+        ]
+      },
+      "sitemap": {
+        "url": "https://techcrunch.com/sitemap.xml",
+        "from_robots": true,
+        "status": 200,
+        "seconds": 0.112,
+        "error": null,
+        "bytes": 242450,
+        "parsed_kind": "sitemapindex",
+        "entries": 2063,
+        "entries_with_lastmod": 2063,
+        "youngest_lastmod_days": 0.79
+      },
+      "homepage": {
+        "status": 200,
+        "seconds": 0.149,
+        "error": null,
+        "bytes": 447115
+      },
+      "feed_autodiscovered": true,
+      "feed": {
+        "url": "https://techcrunch.com/feed/",
+        "autodiscovered": true,
+        "status": 200,
+        "seconds": 0.134,
+        "error": null,
+        "parsed_kind": "rss",
+        "items": 20,
+        "youngest_item_days": 0.12
+      },
+      "category": "retailnews"
+    }
+  ]
+}
