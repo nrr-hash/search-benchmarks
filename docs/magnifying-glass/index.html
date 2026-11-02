@@ -93,7 +93,7 @@ a{color:var(--flag)}
 
 <p>That is a testable claim about a document. So I tested the document.</p>
 
-<p>The method is 149 lines of Python standard library, printed in full below. It takes a plain text file and returns counts: characters, words, sentences, dispersion, and a complete Unicode breakdown of every codepoint that an emoji font would render as a colour bitmap. It makes no judgement. It has no model inside it, no detector, no score, and no network access. Run it on this text and it produces the same numbers it produced for me.</p>
+<p>The method is a small Python standard-library script, printed in full below. It takes a plain text file and returns counts: characters, words, sentences, dispersion, and a Unicode breakdown of codepoints in a declared set of symbol ranges. The symbol ranges are a heuristic, not a complete emoji inventory. The symbol ranges are a heuristic, not a complete emoji inventory. It makes no judgement. It has no model inside it, no detector, no score, and no network access. Run it on this text and it produces the same numbers it produced for me.</p>
 
 <div class="figs">
   <div class="fig"><span class="n">694</span><span class="l">words</span></div>
@@ -174,9 +174,9 @@ a{color:var(--flag)}
 
 <h2>Reproduce it</h2>
 
-<p>Save the advertisement's plain text as <code>searchapi_ad.txt</code>, save the script below as <code>audit_rig.py</code>, and run <code>python3 audit_rig.py searchapi_ad.txt</code>. No dependencies beyond Python 3.10 and its standard library. The text I measured has SHA-256 <code class="hash">6b873986a8e18d34f4e448665721d0b332de9bdb2058db4ffc4be99ed84347da</code> over 4,503 UTF-8 bytes; if your hash matches, your numbers will match mine exactly.</p>
+<p>Save the advertisement's plain text as <code>searchapi_ad.txt</code>, save the script below as <code>audit_rig.py</code>, and run <code>python3 audit_rig.py searchapi_ad.txt</code>. No dependencies beyond Python 3.10 and its standard library. The text I measured has SHA-256 <code class="hash">6b873986a8e18d34f4e448665721d0b332de9bdb2058db4ffc4be99ed84347da</code> over 4,503 UTF-8 bytes; if your hash matches, the core counts should match the historical report. Use the same Python and Unicode database versions for identical Unicode metadata. The current rig hashes the original file bytes without normalising line endings.</p>
 
-<figure class="prewrap"><figcaption>audit_rig.py &mdash; sha256 11ddbdc748a995c52fd5a797c7acb8566d03f7a750c7526827d6295c864b5097</figcaption><pre>#!/usr/bin/env python3
+<figure class="prewrap"><figcaption>audit_rig.py &mdash; sha256 475d5943b11550f24fb5de2820e004f15ebf9f7a6783b8294d61a9b6f9c7aced</figcaption><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 audit_rig.py - deterministic measurements over a plain-text job advertisement.
 
@@ -184,7 +184,7 @@ Usage:  python3 audit_rig.py &lt;file.txt&gt; &gt; results.json
 
 Standard library only. No model, no network, no detector, no scoring.
 Every number below is a count or a standard statistic over the input bytes.
-Run it on any text and it will produce the same numbers on any machine.
+Core counts are deterministic; Unicode metadata depends on the database version.
 &quot;&quot;&quot;
 import json, re, statistics, sys, unicodedata, hashlib
 
@@ -282,7 +282,11 @@ def tells(text):
     return out
 
 def main(path):
-    raw = open(path, encoding=&quot;utf-8&quot;).read()
+    from pathlib import Path
+    source = Path(path).read_bytes()
+    raw = source.decode(&quot;utf-8&quot;)
+    if not WORD.search(raw):
+        raise ValueError(&quot;input must contain at least one counted word&quot;)
     sents = sentences(raw)
     lens = [len(WORD.findall(s)) for s in sents]
     words = WORD.findall(raw)
@@ -290,8 +294,9 @@ def main(path):
     mean = statistics.fmean(lens)
     ac = lag1(lens)
     report = {
-        &quot;rig_version&quot;: &quot;1.0&quot;,
-        &quot;source_sha256&quot;: hashlib.sha256(raw.encode(&quot;utf-8&quot;)).hexdigest(),
+        &quot;rig_version&quot;: &quot;1.1&quot;,
+        &quot;unicode_version&quot;: unicodedata.unidata_version,
+        &quot;source_sha256&quot;: hashlib.sha256(source).hexdigest(),
         &quot;source_bytes_utf8&quot;: len(raw.encode(&quot;utf-8&quot;)),
         &quot;source_characters&quot;: len(raw),
         &quot;words&quot;: len(words),
@@ -315,6 +320,8 @@ def main(path):
         &quot;machine_writing_tells_present&quot;: tells(raw),
         &quot;limits&quot;: [
             &quot;Every figure is a count or a standard statistic. None is a detector.&quot;,
+            &quot;Symbol ranges are heuristic codepoint counts, not a complete emoji or grapheme inventory.&quot;,
+            &quot;Word counts use the declared ASCII-letter regex and are not language-independent.&quot;,
             &quot;No pattern here proves a machine wrote the text; humans write all of them.&quot;,
             &quot;Sentence splitting is heuristic and will mis-split unusual punctuation.&quot;,
             &quot;A short sample gives unstable dispersion figures. Treat them as descriptive.&quot;,
@@ -324,7 +331,14 @@ def main(path):
     print()
 
 if __name__ == &quot;__main__&quot;:
-    main(sys.argv[1])
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(&quot;input&quot;)
+    args = parser.parse_args()
+    try:
+        main(args.input)
+    except (ValueError, OSError, UnicodeError) as error:
+        parser.error(str(error))
 </pre></figure>
 
 <h2>Why bother</h2>

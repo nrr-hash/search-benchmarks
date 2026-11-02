@@ -106,30 +106,30 @@ a{color:var(--flag)}
 
 <h2>What the rig does</h2>
 
-<p>For each domain, over plain HTTPS, in order: fetch <code>/robots.txt</code> and look for a <code>Sitemap:</code> directive; fetch the declared sitemap, or <code>/sitemap.xml</code> if none is declared; parse it as XML and count entries and <code>lastmod</code> values; fetch the homepage and look for an RSS or Atom autodiscovery <code>&lt;link&gt;</code>; failing that, try six conventional feed paths; fetch and parse whatever it finds.</p>
+<p>For each domain, over plain HTTPS, in order: fetch <code>/robots.txt</code> and look for a <code>Sitemap:</code> directive; fetch the first declared sitemap, or <code>/sitemap.xml</code> if none is declared; parse it as XML and count entries and <code>lastmod</code> values; fetch the homepage and look for an RSS or Atom autodiscovery <code>&lt;link&gt;</code>; failing that, try six conventional feed paths; fetch and parse whatever it finds.</p>
 
-<p>Every request records its HTTP status and wall-clock latency. Nothing is retried. Nothing is imputed. A failure is recorded as a failure and counted as one. Standard library only, single threaded, 0.4 seconds between domains.</p>
+<p>The dated run records the final robots, sitemap, homepage, and feed requests. Feed-discovery attempts were not retained in that run. Rig v1.1 logs every explicit probe request and reuses successful feed responses. Standard library only, single threaded, 0.4 seconds between domains.</p>
 
 <h2>The headline number, and what is under it</h2>
 
-<p>Of 60 domains, 44 (73.3 per cent) published a parseable sitemap, a parseable feed, or both. 40 served a sitemap that parsed as a <code>urlset</code> or <code>sitemapindex</code>. 17 served a feed that parsed as RSS or Atom, and only 13 of those were discoverable from the homepage markup in the conventional way, which means feed autodiscovery has decayed further than feeds themselves.</p>
+<p>Of 60 domains, 44 (73.3 per cent) published a parseable sitemap, a parseable feed, or both. 40 served a sitemap that parsed as a <code>urlset</code> or <code>sitemapindex</code>. 17 served a feed recognised as RSS 2.0 or Atom by the original parser; 13 were found through homepage markup. These are detection counts for this probe. RSS 1.0 and some valid HTML attribute forms were outside that parser, so the figures do not establish a decline in autodiscovery.</p>
 
 <p>55 domains returned a <code>robots.txt</code> at all, and 42 of them declared a sitemap inside it.</p>
 
 <p>Latency is the part that surprised me. Median <code>robots.txt</code> fetch was 0.304 seconds, with a 90th percentile of 0.649 seconds. These are static files on a CDN edge, so they are about as cheap as an HTTP request gets.</p>
 
-<p>Freshness holds up better than the protocol's reputation suggests. 26 sitemaps carried any <code>lastmod</code> at all; among the 24 where a date parsed, the median youngest entry was 1.01 days old. Among the 16 feeds with a parseable date, the median youngest item was 2.12 days old. Where these files exist, they are mostly being maintained rather than left to rot.</p>
+<p>Freshness needs a separate measurement. The original rig inspected only the first 50 sitemap timestamps and five feed timestamps, and accepted placeholder dates. Those age estimates cannot establish the freshest item or whether a site is maintained. I have withdrawn the freshness summary pending a complete measurement.</p>
 
 <h2>Where it falls over</h2>
 
-<p>16 of 60 domains, 26.7 per cent, published neither. That is the number that decides whether any of this is useful to you, and it is not small.</p>
+<p>The original probe found neither supported format on 16 of 60 domains, 26.7 per cent. This is a detection failure, not proof that those domains publish neither. That is the number that decides whether any of this is useful to you, and it is not small.</p>
 
 <div class="scroller"><table>
 <thead><tr><th>Category</th><th>Sitemap</th><th>Feed</th><th>Either</th></tr></thead>
 <tbody><tr><td>AI vendors</td><td>5/5</td><td>2/5</td><td class="good">5/5</td></tr><tr><td>Developer docs</td><td>5/5</td><td>3/5</td><td class="good">5/5</td></tr><tr><td>SaaS</td><td>5/5</td><td>1/5</td><td class="good">5/5</td></tr><tr><td>Blog platforms</td><td>4/5</td><td>2/5</td><td class="">4/5</td></tr><tr><td>Business press</td><td>4/5</td><td>1/5</td><td class="">4/5</td></tr><tr><td>Science publishing</td><td>4/5</td><td>2/5</td><td class="">4/5</td></tr><tr><td>SERP/scraping vendors</td><td>3/5</td><td>2/5</td><td class="">4/5</td></tr><tr><td>Forums</td><td>1/5</td><td>2/5</td><td class="">3/5</td></tr><tr><td>Government</td><td>3/5</td><td>0/5</td><td class="">3/5</td></tr><tr><td>News</td><td>2/5</td><td>1/5</td><td class="">3/5</td></tr><tr><td>E-commerce</td><td>2/5</td><td>0/5</td><td class="bad">2/5</td></tr><tr><td>Universities</td><td>2/5</td><td>1/5</td><td class="bad">2/5</td></tr></tbody>
 </table></div>
 
-<p>E-commerce and universities were worst, at 2 of 5 each. Developer documentation, SaaS and AI vendors were perfect at 5 of 5, which makes sense: those are the sites that most want to be indexed.</p>
+<p>E-commerce and universities were worst, at 2 of 5 each. Developer documentation, SaaS, and AI vendors each returned a supported format on 5 of 5 selected domains. The small, hand-picked groups do not explain why those sites publish these formats.</p>
 
 <p>Five domains refused the crawler outright. Three returned 403, one reset the connection, and <code>stackoverflow.com</code> returned <code>418 I'm a teapot</code>, which is a deliberate and faintly charming way of saying no. A production system would need a proper user-agent policy, backoff, and in several cases an arrangement with the site. My rig has none of that, and the 91.7 per cent <code>robots.txt</code> success rate should be read as a ceiling rather than a typical result.</p>
 
@@ -137,11 +137,11 @@ a{color:var(--flag)}
 
 <p>The seed list includes five SERP and scraping vendors, because a sample of the commercial web without them would have been incomplete.</p>
 
-<p><strong>searchapi.io publishes no sitemap.</strong> Its <code>robots.txt</code> returns 200 and contains the stock framework default: a comment pointing at robotstxt.org and <code>Disallow: /api/</code>. There is no <code>Sitemap:</code> directive. I checked <code>/sitemap.xml</code>, <code>/sitemap_index.xml</code> and <code>/sitemap-index.xml</code> on both the apex and the <code>www</code> host. All six returned 404.</p>
+<p><strong>The probe found no sitemap for searchapi.io.</strong> In the dated run, its <code>robots.txt</code> returned 200 without a <code>Sitemap:</code> directive, and the fallback <code>/sitemap.xml</code> request returned 404. That establishes what this probe found at these locations, not the absence of a sitemap everywhere on the domain.</p>
 
 <p>Three of the four other vendors in that group do publish one. <code>scrapingbee.com</code> publishes a 1,139-URL sitemap and a feed alongside it.</p>
 
-<p class="pull">A company selling structured search data has not published the free structured version of itself. The measurement that found this cost six minutes of wall-clock time and no money.</p>
+<p class="pull">Even a company selling structured search data can be absent from a simple sitemap-discovery pass. That is a reason to measure the route before building around it.</p>
 
 <p>I want to keep this proportionate, because overclaiming it would be the same failure in the other direction. It does not mean their product is weak, and the commercial cost to them is probably small: a marketing site of that size is crawled perfectly well without a sitemap. It is a small, specific, checkable omission, and the only reason it is interesting is that it sits in the one category where you would expect the opposite.</p>
 
@@ -151,7 +151,7 @@ a{color:var(--flag)}
 
 <p>They cover <em>nothing else</em>. A sitemap will not tell you where a page ranks for a query, who else ranks above it, what the SERP looked like on a given day, what appeared in a featured snippet, or anything at all about a search engine's behaviour. That is the entire product category, and no amount of free XML substitutes for it.</p>
 
-<p>So the finding is not that the SERP API business is obsolete. It is narrower and more useful than that: a measurable share of the work people throw a paid crawler at is discovery, and for roughly 73.3 per cent of sites discovery is a free static file that answers in under half a second. Knowing which of your jobs are actually discovery jobs is worth an evening of measurement.</p>
+<p>So the finding is not that the SERP API business is obsolete. It is narrower and more useful than that: a measurable share of the work people throw a paid crawler at is discovery, and this probe found a parseable sitemap or supported feed on 44 of the 60 selected domains. The latency medians describe successful robots and sitemap requests separately; they are not a promise about every site or a complete discovery job. Knowing which of your jobs are actually discovery jobs is worth an evening of measurement.</p>
 
 <div class="limits">
 <h3>Limitations, in full</h3>
@@ -160,14 +160,14 @@ a{color:var(--flag)}
 <li><strong>One run, one night, one location.</strong> No time series, no repeat measurement, no geographic variation. Latency figures in particular would move on a different host.</li>
 <li><strong>My user-agent was not negotiated.</strong> Several 403s are probably bot defences responding to an unknown agent, not a policy against crawling. A different agent string would produce a different success rate.</li>
 <li><strong>Entry counts are shallow.</strong> Where a domain serves a <code>sitemapindex</code>, I counted the child sitemaps, not the URLs inside them. The table's "entries" column therefore means different things on different rows, and I did not recurse.</li>
-<li><strong>Date parsing is partial.</strong> I accept five date formats. Feeds and sitemaps using anything else contribute no freshness figure, which is why the freshness sample is smaller than the sitemap sample.</li>
+<li><strong>Date parsing is partial.</strong> The historical freshness estimates were incomplete and are withdrawn here. The current rig inspects all parsed timestamps, supports ISO and email dates, and excludes future dates and pre-1970 placeholders. A publisher timestamp still does not prove content freshness.</li>
 <li><strong>I did not verify sitemap accuracy.</strong> A sitemap that parses is not a sitemap that is complete or correct. Checking whether declared URLs resolve, and whether undeclared ones exist, is the obvious next experiment and I have not run it.</li>
 </ul>
 </div>
 
 <h2>Reproduce it</h2>
 
-<p>Two files. Run <code>python3 deadtech_bench.py seeds.txt out.json</code>. Python 3.10 and the standard library, no dependencies, six minutes and eight seconds for 60 domains at the pacing below. Your numbers will not match mine exactly, because the web moves; the point is that the method is fixed and the seed list is published, so any difference is the web changing rather than the measurement drifting.</p>
+<p>Two files. Run <code>python3 deadtech_bench.py seeds.txt out.json</code>. Python 3.10 and the standard library, no dependencies, six minutes and eight seconds for 60 domains at the pacing below. The 31 October JSON is retained as a historical v1.0 run. The current script is v1.1, with corrected date handling, feed parsing, request logging, and timeout configuration. Differences from a new run may reflect both the changed method and the changing web; they are not a time-series comparison.</p>
 
 <figure class="prewrap"><figcaption>seeds.txt &mdash; fixed before measurement &mdash; sha256 423cd0fd8d7c6475e1162af535810868177427a2af5de4f9e8d21040556fc7dd</figcaption><pre># Seed list v1, fixed before any measurement was taken.
 # Hand-picked for category spread, NOT a random or ranked sample.
@@ -234,7 +234,7 @@ retailnews:economist.com
 retailnews:techcrunch.com
 </pre></figure>
 
-<figure class="prewrap"><figcaption>deadtech_bench.py &mdash; sha256 2ca0ad46aea01e9a595b2087c1ddb0aec3108cc5d22044c5849ba64e990dca6e</figcaption><pre>#!/usr/bin/env python3
+<figure class="prewrap"><figcaption>deadtech_bench.py &mdash; sha256 6c51f29360cc3fc22a0be7f874b10e62ccd2807bc5fdbea818b124a57dda0b08</figcaption><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 deadtech_bench.py - does the declared, free, machine-readable web still work?
 
@@ -252,36 +252,50 @@ Usage:  python3 deadtech_bench.py seeds.txt out.json [--timeout 15]
 
 Standard library only. One thread, sequential, politely paced.
 &quot;&quot;&quot;
-import json, re, ssl, sys, time, gzip, io
+import argparse, hashlib, json, re, sys, time, gzip, io
+from html.parser import HTMLParser
+from email.utils import parsedate_to_datetime
 import urllib.request, urllib.error
 from urllib.parse import urljoin, urlparse
 from xml.etree import ElementTree as ET
 from datetime import datetime, timezone
 
-UA = &quot;deadtech-bench/1.0 (reproducible measurement; contact in the write-up)&quot;
+UA = &quot;deadtech-bench/1.1 (reproducible measurement; contact in the write-up)&quot;
 TIMEOUT = 15
 
 def get(url, timeout=TIMEOUT, limit=3_000_000):
     &quot;&quot;&quot;Return (status, bytes, seconds, error). Never raises.&quot;&quot;&quot;
     t0 = time.monotonic()
-    req = urllib.request.Request(url, headers={
-        &quot;User-Agent&quot;: UA, &quot;Accept&quot;: &quot;*/*&quot;, &quot;Accept-Encoding&quot;: &quot;gzip&quot;,
-    })
     try:
+        req = urllib.request.Request(url, headers={
+        &quot;User-Agent&quot;: UA, &quot;Accept&quot;: &quot;*/*&quot;, &quot;Accept-Encoding&quot;: &quot;gzip&quot;,
+        })
         with urllib.request.urlopen(req, timeout=timeout) as r:
-            body = r.read(limit)
-            if r.headers.get(&quot;Content-Encoding&quot;) == &quot;gzip&quot;:
-                try: body = gzip.decompress(body)
-                except Exception: pass
+            body = r.read(limit + 1)
+            if len(body) &gt; limit:
+                raise ValueError(&quot;response exceeds download limit&quot;)
+            if (r.headers.get(&quot;Content-Encoding&quot;) or &quot;&quot;).lower() == &quot;gzip&quot; or body.startswith(b&quot;\x1f\x8b&quot;):
+                with gzip.GzipFile(fileobj=io.BytesIO(body)) as stream:
+                    body = stream.read(limit + 1)
+                if len(body) &gt; limit:
+                    raise ValueError(&quot;response exceeds decompressed limit&quot;)
             return r.status, body, round(time.monotonic() - t0, 3), None
     except urllib.error.HTTPError as e:
         return e.code, b&quot;&quot;, round(time.monotonic() - t0, 3), f&quot;HTTPError {e.code}&quot;
     except Exception as e:
         return None, b&quot;&quot;, round(time.monotonic() - t0, 3), f&quot;{type(e).__name__}: {str(e)[:120]}&quot;
 
-FEED_LINK = re.compile(
-    r&quot;&quot;&quot;&lt;link[^&gt;]+(?:type=[&quot;&#x27;]application/(?:rss|atom)\+xml[&quot;&#x27;][^&gt;]*href=[&quot;&#x27;]([^&quot;&#x27;]+)[&quot;&#x27;]&quot;&quot;&quot;
-    r&quot;&quot;&quot;|href=[&quot;&#x27;]([^&quot;&#x27;]+)[&quot;&#x27;][^&gt;]*type=[&quot;&#x27;]application/(?:rss|atom)\+xml[&quot;&#x27;])&quot;&quot;&quot;, re.I)
+class FeedLinks(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.links = []
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if (tag == &quot;link&quot; and &quot;alternate&quot; in (a.get(&quot;rel&quot;) or &quot;&quot;).lower().split()
+                and (a.get(&quot;type&quot;) or &quot;&quot;).lower().split(&quot;;&quot;)[0].strip()
+                in (&quot;application/rss+xml&quot;, &quot;application/atom+xml&quot;) and a.get(&quot;href&quot;)):
+            self.links.append(a[&quot;href&quot;])
 
 CONVENTIONAL_FEEDS = [&quot;/feed&quot;, &quot;/rss&quot;, &quot;/rss.xml&quot;, &quot;/atom.xml&quot;, &quot;/feed.xml&quot;, &quot;/index.xml&quot;]
 
@@ -316,42 +330,51 @@ def parse_feed(body):
     if tag == &quot;rss&quot;:
         items = root.findall(&quot;.//item&quot;)
         dates = [e.text for i in items for e in i.findall(&quot;pubDate&quot;) if e is not None and e.text]
-        return &quot;rss&quot;, len(items), dates[:5]
+        return &quot;rss&quot;, len(items), dates
     if tag == &quot;feed&quot;:
         entries = [e for e in root if e.tag.split(&quot;}&quot;)[-1] == &quot;entry&quot;]
         dates = [c.text for e in entries for c in e
                  if c.tag.split(&quot;}&quot;)[-1] in (&quot;updated&quot;, &quot;published&quot;) and c.text]
-        return &quot;atom&quot;, len(entries), dates[:5]
+        return &quot;atom&quot;, len(entries), dates
+    if root.tag == &quot;{http://www.w3.org/1999/02/22-rdf-syntax-ns#}RDF&quot;:
+        items = root.findall(&quot;{http://purl.org/rss/1.0/}item&quot;)
+        dates = [e.text for i in items for e in i.findall(&quot;{http://purl.org/dc/elements/1.1/}date&quot;) if e.text]
+        return &quot;rss1&quot;, len(items), dates
     return tag, 0, []
 
-def age_days(values):
-    &quot;&quot;&quot;Youngest lastmod/pubDate in days, or None if nothing parses.&quot;&quot;&quot;
-    best = None
-    now = datetime.now(timezone.utc)
-    for v in values[:50]:
-        d = None
-        v = v.strip()
-        for fmt in (&quot;%Y-%m-%dT%H:%M:%S%z&quot;, &quot;%Y-%m-%dT%H:%M:%S.%f%z&quot;, &quot;%Y-%m-%d&quot;,
-                    &quot;%a, %d %b %Y %H:%M:%S %z&quot;, &quot;%a, %d %b %Y %H:%M:%S %Z&quot;):
+def age_days(values, now=None):
+    &quot;&quot;&quot;Youngest non-future timestamp across all supplied values; missing is None.&quot;&quot;&quot;
+    now = now or datetime.now(timezone.utc)
+    ages = []
+    for value in values:
+        value = value.strip()
+        try:
+            d = datetime.fromisoformat(value.replace(&quot;Z&quot;, &quot;+00:00&quot;))
+        except ValueError:
             try:
-                d = datetime.strptime(v.replace(&quot;Z&quot;, &quot;+0000&quot;), fmt)
-                break
-            except ValueError:
+                d = parsedate_to_datetime(value)
+            except (ValueError, TypeError, OverflowError):
                 continue
-        if d is None:
-            continue
         if d.tzinfo is None:
             d = d.replace(tzinfo=timezone.utc)
-        days = (now - d).total_seconds() / 86400
-        if best is None or days &lt; best:
-            best = days
-    return round(best, 2) if best is not None else None
+        age = (now - d).total_seconds() / 86400
+        # Year-one placeholders and future dates are not evidence of freshness.
+        if d.year &gt;= 1970 and age &gt;= 0:
+            ages.append(age)
+    return round(min(ages), 2) if ages else None
 
-def probe(domain):
+def probe(domain, timeout=TIMEOUT):
     base = f&quot;https://{domain}/&quot;
-    rec = {&quot;domain&quot;: domain}
+    rec = {&quot;domain&quot;: domain, &quot;requests&quot;: []}
+    def fetch(url):
+        result = get(url, timeout=timeout)
+        status, body, seconds, error = result
+        rec[&quot;requests&quot;].append({&quot;url&quot;: url, &quot;status&quot;: status, &quot;seconds&quot;: seconds,
+                                &quot;error&quot;: error, &quot;bytes&quot;: len(body),
+                                &quot;body_sha256&quot;: hashlib.sha256(body).hexdigest() if body else None})
+        return result
 
-    st, body, secs, err = get(base + &quot;robots.txt&quot;)
+    st, body, secs, err = fetch(base + &quot;robots.txt&quot;)
     rec[&quot;robots&quot;] = {&quot;status&quot;: st, &quot;seconds&quot;: secs, &quot;error&quot;: err, &quot;bytes&quot;: len(body)}
     declared = []
     if st == 200 and body:
@@ -361,7 +384,7 @@ def probe(domain):
     rec[&quot;robots&quot;][&quot;declared_sitemaps&quot;] = declared[:5]
 
     sm_url = declared[0] if declared else urljoin(base, &quot;/sitemap.xml&quot;)
-    st, body, secs, err = get(sm_url)
+    st, body, secs, err = fetch(sm_url)
     kind, count, lastmods = parse_sitemap(body) if st == 200 else (None, 0, [])
     rec[&quot;sitemap&quot;] = {&quot;url&quot;: sm_url, &quot;from_robots&quot;: bool(declared), &quot;status&quot;: st,
                       &quot;seconds&quot;: secs, &quot;error&quot;: err, &quot;bytes&quot;: len(body),
@@ -369,60 +392,77 @@ def probe(domain):
                       &quot;entries_with_lastmod&quot;: len(lastmods),
                       &quot;youngest_lastmod_days&quot;: age_days(lastmods)}
 
-    st, body, secs, err = get(base)
+    st, body, secs, err = fetch(base)
     rec[&quot;homepage&quot;] = {&quot;status&quot;: st, &quot;seconds&quot;: secs, &quot;error&quot;: err, &quot;bytes&quot;: len(body)}
-    feed_url = None
+    links = FeedLinks()
     if st == 200 and body:
-        html = body.decode(&quot;utf-8&quot;, &quot;replace&quot;)
-        m = FEED_LINK.search(html)
-        if m:
-            feed_url = urljoin(base, m.group(1) or m.group(2))
-    rec[&quot;feed_autodiscovered&quot;] = bool(feed_url)
-
-    if not feed_url:
-        for path in CONVENTIONAL_FEEDS:
-            st2, body2, secs2, err2 = get(urljoin(base, path), timeout=8)
-            if st2 == 200 and parse_feed(body2)[0] in (&quot;rss&quot;, &quot;atom&quot;):
-                feed_url = urljoin(base, path)
-                break
-
-    if feed_url:
-        st, body, secs, err = get(feed_url)
+        links.feed(body.decode(&quot;utf-8&quot;, &quot;replace&quot;))
+    candidates = [(urljoin(base, href), True) for href in links.links]
+    candidates += [(urljoin(base, path), False) for path in CONVENTIONAL_FEEDS]
+    rec[&quot;feed_autodiscovered&quot;] = False
+    rec[&quot;feed&quot;] = {&quot;url&quot;: None, &quot;autodiscovered&quot;: False, &quot;status&quot;: None,
+                   &quot;seconds&quot;: None, &quot;error&quot;: &quot;no supported feed found by this probe&quot;,
+                   &quot;parsed_kind&quot;: None, &quot;items&quot;: 0, &quot;youngest_item_days&quot;: None}
+    seen = set()
+    for feed_url, discovered in candidates:
+        if feed_url in seen:
+            continue
+        seen.add(feed_url)
+        st, body, secs, err = fetch(feed_url)
         kind, items, dates = parse_feed(body) if st == 200 else (None, 0, [])
-        rec[&quot;feed&quot;] = {&quot;url&quot;: feed_url, &quot;autodiscovered&quot;: rec[&quot;feed_autodiscovered&quot;],
-                       &quot;status&quot;: st, &quot;seconds&quot;: secs, &quot;error&quot;: err,
-                       &quot;parsed_kind&quot;: kind, &quot;items&quot;: items,
-                       &quot;youngest_item_days&quot;: age_days(dates)}
-    else:
-        rec[&quot;feed&quot;] = {&quot;url&quot;: None, &quot;autodiscovered&quot;: False, &quot;status&quot;: None,
-                       &quot;seconds&quot;: None, &quot;error&quot;: &quot;no feed found&quot;,
-                       &quot;parsed_kind&quot;: None, &quot;items&quot;: 0, &quot;youngest_item_days&quot;: None}
+        if kind in (&quot;rss&quot;, &quot;atom&quot;, &quot;rss1&quot;):
+            rec[&quot;feed_autodiscovered&quot;] = discovered
+            rec[&quot;feed&quot;] = {&quot;url&quot;: feed_url, &quot;autodiscovered&quot;: discovered,
+                           &quot;status&quot;: st, &quot;seconds&quot;: secs, &quot;error&quot;: err,
+                           &quot;parsed_kind&quot;: kind, &quot;items&quot;: items,
+                           &quot;youngest_item_days&quot;: age_days(dates)}
+            break
     return rec
 
 def main():
-    seeds_path, out_path = sys.argv[1], sys.argv[2]
+    parser = argparse.ArgumentParser()
+    parser.add_argument(&quot;seeds_path&quot;)
+    parser.add_argument(&quot;out_path&quot;)
+    parser.add_argument(&quot;--timeout&quot;, type=float, default=TIMEOUT)
+    args = parser.parse_args()
+    if args.timeout &lt;= 0:
+        parser.error(&quot;timeout must be positive&quot;)
+    seeds_path, out_path = args.seeds_path, args.out_path
     seeds = []
-    for line in open(seeds_path, encoding=&quot;utf-8&quot;):
+    from pathlib import Path
+    for line in Path(seeds_path).read_text(encoding=&quot;utf-8&quot;).splitlines():
         line = line.strip()
         if not line or line.startswith(&quot;#&quot;):
             continue
         cat, _, dom = line.partition(&quot;:&quot;)
+        dom = dom.strip()
+        if not cat or not dom or any(c in dom for c in &quot;/ :?#&quot;):
+            parser.error(&quot;invalid category:domain seed&quot;)
         seeds.append((cat, dom))
+    if not seeds:
+        parser.error(&quot;seed list is empty&quot;)
     started = datetime.now(timezone.utc).isoformat()
     results = []
+    def save(complete):
+        payload = {&quot;run_started_utc&quot;: started,
+                   &quot;run_finished_utc&quot;: datetime.now(timezone.utc).isoformat() if complete else None,
+                   &quot;seed_count&quot;: len(seeds), &quot;completed_count&quot;: len(results), &quot;complete&quot;: complete,
+                   &quot;user_agent&quot;: UA, &quot;timeout_s&quot;: args.timeout, &quot;rig_version&quot;: &quot;1.1&quot;,
+                   &quot;results&quot;: results}
+        target = Path(out_path)
+        temporary = target.with_suffix(target.suffix + &quot;.tmp&quot;)
+        temporary.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding=&quot;utf-8&quot;)
+        temporary.replace(target)
     for i, (cat, dom) in enumerate(seeds, 1):
-        r = probe(dom)
+        r = probe(dom, timeout=args.timeout)
         r[&quot;category&quot;] = cat
         results.append(r)
+        save(False)
         print(f&quot;[{i}/{len(seeds)}] {dom:34s} robots={r[&#x27;robots&#x27;][&#x27;status&#x27;]} &quot;
               f&quot;sitemap={r[&#x27;sitemap&#x27;][&#x27;status&#x27;]}/{r[&#x27;sitemap&#x27;][&#x27;entries&#x27;]} &quot;
               f&quot;feed={r[&#x27;feed&#x27;][&#x27;parsed_kind&#x27;]}&quot;, file=sys.stderr, flush=True)
         time.sleep(0.4)
-    json.dump({&quot;run_started_utc&quot;: started,
-               &quot;run_finished_utc&quot;: datetime.now(timezone.utc).isoformat(),
-               &quot;seed_count&quot;: len(seeds), &quot;user_agent&quot;: UA, &quot;timeout_s&quot;: TIMEOUT,
-               &quot;results&quot;: results}, open(out_path, &quot;w&quot;, encoding=&quot;utf-8&quot;),
-              indent=2, ensure_ascii=False)
+    save(True)
     print(f&quot;wrote {out_path}&quot;, file=sys.stderr)
 
 if __name__ == &quot;__main__&quot;:
@@ -431,17 +471,17 @@ if __name__ == &quot;__main__&quot;:
 
 <h2>Full results</h2>
 
-<p>Every domain, as measured. Days columns are the age of the youngest timestamp found, at the time of the run.</p>
+<p>Every domain, as measured. Freshness estimates are omitted: the historical run did not inspect every timestamp. Entry counts are shallow XML counts, including child sitemap counts, and do not validate the linked URLs.</p>
 
 <div class="scroller"><table>
-<thead><tr><th>Domain</th><th>robots</th><th>declares</th><th>sitemap</th><th>entries</th><th>lastmod (d)</th><th>feed</th><th>item (d)</th></tr></thead>
-<tbody><tr><td>anthropic.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>588</td><td>1.1</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>cohere.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>869</td><td>4.8</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>huggingface.co</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>7</td><td>&ndash;</td><td>rss</td><td>1.1</td></tr><tr><td>mistral.ai</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1</td><td>2.1</td><td>rss</td><td>2.3</td></tr><tr><td>openai.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>43</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>dev.to</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>253</td><td>&ndash;</td><td>rss</td><td>0.0</td></tr><tr><td>ghost.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>20</td><td>0.8</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>medium.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>substack.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>51</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>wordpress.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1</td><td>0.1</td><td>rss</td><td>0.7</td></tr><tr><td>developer.mozilla.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>10</td><td>0.8</td><td>rss</td><td>138.8</td></tr><tr><td>docs.djangoproject.com</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>12</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>docs.python.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>7</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>kubernetes.io</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>17</td><td>0.2</td><td>rss</td><td>2.6</td></tr><tr><td>nodejs.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1,666</td><td>1.1</td><td>rss</td><td>2.0</td></tr><tr><td>argos.co.uk</td><td>403</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>etsy.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>ikea.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>2,264</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>johnlewis.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>wayfair.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>discourse.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>98</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>lobste.rs</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>rss</td><td>0.2</td></tr><tr><td>news.ycombinator.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>rss</td><td>0.0</td></tr><tr><td>reddit.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>stackoverflow.com</td><td>418</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>canada.ca</td><td>err</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>europa.eu</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>gov.uk</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>36</td><td>1.7</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>irs.gov</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>12</td><td>0.9</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>nhs.uk</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>8</td><td>0.1</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>apnews.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>bbc.co.uk</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>6</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>npr.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>75</td><td>898.8</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>reuters.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>theguardian.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>rss</td><td>0.0</td></tr><tr><td>bloomberg.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>430</td><td>0.8</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>economist.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>ft.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>291</td><td>3,277.2</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>techcrunch.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>2,063</td><td>0.8</td><td>rss</td><td>0.1</td></tr><tr><td>wsj.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>223</td><td>0.0</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>atlassian.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>8</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>cloudflare.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1,014</td><td>0.8</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>hubspot.com</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>3,002</td><td>9.8</td><td>rss</td><td>2.3</td></tr><tr><td>stripe.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>9</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>twilio.com</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>7</td><td>319.3</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>arxiv.org</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>biorxiv.org</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>10</td><td>&ndash;</td><td>rss</td><td>4,824.8</td></tr><tr><td>nature.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>40,548</td><td>&ndash;</td><td>RDF</td><td>&ndash;</td></tr><tr><td>plos.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>17</td><td>15.1</td><td>rss</td><td>&ndash;</td></tr><tr><td>pubmed.ncbi.nlm.nih.gov</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>0</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>brightdata.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>10</td><td>1.4</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>scrapingbee.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1,139</td><td>1.3</td><td>rss</td><td>739,919.8</td></tr><tr><td>searchapi.io</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>serpapi.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>rss</td><td>4.0</td></tr><tr><td>zenrows.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>10</td><td>0.8</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>cam.ac.uk</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>2</td><td>&ndash;</td><td>rss</td><td>3.4</td></tr><tr><td>ethz.ch</td><td>404</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>mit.edu</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>ox.ac.uk</td><td>403</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>stanford.edu</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>27</td><td>0.9</td><td>&ndash;</td><td>&ndash;</td></tr></tbody>
+<thead><tr><th>Domain</th><th>robots</th><th>declares</th><th>sitemap</th><th>entries</th><th>feed</th></tr></thead>
+<tbody><tr><td>anthropic.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>588</td><td>&ndash;</td></tr><tr><td>cohere.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>869</td><td>&ndash;</td></tr><tr><td>huggingface.co</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>7</td><td>rss</td></tr><tr><td>mistral.ai</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1</td><td>rss</td></tr><tr><td>openai.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>43</td><td>&ndash;</td></tr><tr><td>dev.to</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>253</td><td>rss</td></tr><tr><td>ghost.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>20</td><td>&ndash;</td></tr><tr><td>medium.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>substack.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>51</td><td>&ndash;</td></tr><tr><td>wordpress.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1</td><td>rss</td></tr><tr><td>developer.mozilla.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>10</td><td>rss</td></tr><tr><td>docs.djangoproject.com</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>12</td><td>&ndash;</td></tr><tr><td>docs.python.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>7</td><td>&ndash;</td></tr><tr><td>kubernetes.io</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>17</td><td>rss</td></tr><tr><td>nodejs.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1,666</td><td>rss</td></tr><tr><td>argos.co.uk</td><td>403</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>etsy.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>ikea.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>2,264</td><td>&ndash;</td></tr><tr><td>johnlewis.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>wayfair.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1</td><td>&ndash;</td></tr><tr><td>discourse.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>98</td><td>&ndash;</td></tr><tr><td>lobste.rs</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>rss</td></tr><tr><td>news.ycombinator.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>rss</td></tr><tr><td>reddit.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>stackoverflow.com</td><td>418</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>canada.ca</td><td>err</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>europa.eu</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>gov.uk</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>36</td><td>&ndash;</td></tr><tr><td>irs.gov</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>12</td><td>&ndash;</td></tr><tr><td>nhs.uk</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>8</td><td>&ndash;</td></tr><tr><td>apnews.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>bbc.co.uk</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>6</td><td>&ndash;</td></tr><tr><td>npr.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>75</td><td>&ndash;</td></tr><tr><td>reuters.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>theguardian.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>rss</td></tr><tr><td>bloomberg.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>430</td><td>&ndash;</td></tr><tr><td>economist.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>ft.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>291</td><td>&ndash;</td></tr><tr><td>techcrunch.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>2,063</td><td>rss</td></tr><tr><td>wsj.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>223</td><td>&ndash;</td></tr><tr><td>atlassian.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>8</td><td>&ndash;</td></tr><tr><td>cloudflare.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1,014</td><td>&ndash;</td></tr><tr><td>hubspot.com</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>3,002</td><td>rss</td></tr><tr><td>stripe.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>9</td><td>&ndash;</td></tr><tr><td>twilio.com</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>7</td><td>&ndash;</td></tr><tr><td>arxiv.org</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>biorxiv.org</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>10</td><td>rss</td></tr><tr><td>nature.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>40,548</td><td>RDF</td></tr><tr><td>plos.org</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>17</td><td>rss</td></tr><tr><td>pubmed.ncbi.nlm.nih.gov</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>0</td><td>&ndash;</td></tr><tr><td>brightdata.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>10</td><td>&ndash;</td></tr><tr><td>scrapingbee.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>1,139</td><td>rss</td></tr><tr><td>searchapi.io</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>serpapi.com</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>rss</td></tr><tr><td>zenrows.com</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>10</td><td>&ndash;</td></tr><tr><td>cam.ac.uk</td><td>200</td><td><span class="n">no</span></td><td><span class="y">yes</span></td><td>2</td><td>rss</td></tr><tr><td>ethz.ch</td><td>404</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>mit.edu</td><td>200</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>ox.ac.uk</td><td>403</td><td><span class="n">no</span></td><td><span class="n">no</span></td><td>&ndash;</td><td>&ndash;</td></tr><tr><td>stanford.edu</td><td>200</td><td><span class="y">yes</span></td><td><span class="y">yes</span></td><td>27</td><td>&ndash;</td></tr></tbody>
 </table></div>
 
 <footer>
-<p><strong>Method and provenance.</strong> The benchmark script was generated with AI assistance against a specification I wrote, then read, run, and checked by me. The seed list was fixed before any measurement was taken. Every figure in this piece is computed directly from the run's JSON output by the page's own build script; none was transcribed by hand. The searchapi.io finding was confirmed by a separate manual pass over six URLs after the main run.</p>
+<p><strong>Method and provenance.</strong> The benchmark script was generated with AI assistance against a specification I wrote, then read, run, and checked by me. The seed list was fixed before any measurement was taken. The historical totals can be recomputed from the published JSON with <code>analyse.py</code>. The original response bodies and supplementary manual checks are not included in that evidence, so the claim above is limited to the retained request results.</p>
 <p><strong>Known gaps.</strong> No independent review. No repeat run. The raw JSON is published with the code so that anyone can check my arithmetic or disagree with my categories.</p>
-<p><strong>Version.</strong> v1.0, 31 October 2026. Rig v1.0. Run 60 domains, started 31 October 2026.</p>
+<p><strong>Version.</strong> v1.1, 2 November 2026. Historical observations: rig v1.0, 31 October 2026. Current code: rig v1.1. Freshness estimates withdrawn; availability figures describe the original probe.</p>
 </footer>
 
 </div>

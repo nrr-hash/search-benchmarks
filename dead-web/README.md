@@ -12,10 +12,9 @@ See the repository README for usage. Two things worth repeating here:
 
 Known gaps, unfixed on purpose so they are visible rather than buried:
 
-- No repeat runs, so no time series and no variance estimate.
+- The published observations are one historical v1.0 run, not a time series or variance estimate.
 - The user-agent is not negotiated with any site, so some 403s are bot
   defence rather than policy.
-- Five date formats are accepted; feeds using others contribute no freshness
-  figure.
+- Historical v1.0 freshness values inspected only date prefixes and are withdrawn from the write-up. v1.1 inspects every supplied date, excludes placeholders and future dates, and supports ISO and email formats.
 - A sitemap that parses is not a sitemap that is complete or correct. Checking
   declared URLs against reality is the obvious next experiment.

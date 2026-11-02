@@ -6,7 +6,7 @@ Usage:  python3 audit_rig.py <file.txt> > results.json
 
 Standard library only. No model, no network, no detector, no scoring.
 Every number below is a count or a standard statistic over the input bytes.
-Run it on any text and it will produce the same numbers on any machine.
+Core counts are deterministic; Unicode metadata depends on the database version.
 """
 import json, re, statistics, sys, unicodedata, hashlib
 
@@ -104,7 +104,11 @@ def tells(text):
     return out
 
 def main(path):
-    raw = open(path, encoding="utf-8").read()
+    from pathlib import Path
+    source = Path(path).read_bytes()
+    raw = source.decode("utf-8")
+    if not WORD.search(raw):
+        raise ValueError("input must contain at least one counted word")
     sents = sentences(raw)
     lens = [len(WORD.findall(s)) for s in sents]
     words = WORD.findall(raw)
@@ -112,8 +116,9 @@ def main(path):
     mean = statistics.fmean(lens)
     ac = lag1(lens)
     report = {
-        "rig_version": "1.0",
-        "source_sha256": hashlib.sha256(raw.encode("utf-8")).hexdigest(),
+        "rig_version": "1.1",
+        "unicode_version": unicodedata.unidata_version,
+        "source_sha256": hashlib.sha256(source).hexdigest(),
         "source_bytes_utf8": len(raw.encode("utf-8")),
         "source_characters": len(raw),
         "words": len(words),
@@ -137,6 +142,8 @@ def main(path):
         "machine_writing_tells_present": tells(raw),
         "limits": [
             "Every figure is a count or a standard statistic. None is a detector.",
+            "Symbol ranges are heuristic codepoint counts, not a complete emoji or grapheme inventory.",
+            "Word counts use the declared ASCII-letter regex and are not language-independent.",
             "No pattern here proves a machine wrote the text; humans write all of them.",
             "Sentence splitting is heuristic and will mis-split unusual punctuation.",
             "A short sample gives unstable dispersion figures. Treat them as descriptive.",
@@ -146,4 +153,11 @@ def main(path):
     print()
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("input")
+    args = parser.parse_args()
+    try:
+        main(args.input)
+    except (ValueError, OSError, UnicodeError) as error:
+        parser.error(str(error))

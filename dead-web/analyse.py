@@ -13,14 +13,15 @@ def sitemap_ok(r):
     return r["sitemap"]["status"] == 200 and r["sitemap"]["parsed_kind"] in ("urlset", "sitemapindex")
 
 def feed_ok(r):
-    return r["feed"]["parsed_kind"] in ("rss", "atom")
+    return r["feed"]["parsed_kind"] in ("rss", "atom", "rss1")
 
 def main(path):
-    d = json.load(open(path, encoding="utf-8"))
+    from pathlib import Path
+    d = json.loads(Path(path).read_text(encoding="utf-8"))
     R = d["results"]
     n = len(R)
     def rate(label, c):
-        print(f"{label:<34} {c:>3}/{n}  ({100*c/n:5.1f}%)")
+        print(f"{label:<34} {c:>3}/{n}  ({(100*c/n if n else 0):5.1f}%)")
 
     print(f"run started  {d['run_started_utc']}")
     print(f"run finished {d['run_finished_utc']}")
@@ -35,21 +36,23 @@ def main(path):
     rate("EITHER sitemap or feed", either)
     rate("NEITHER", n - either)
 
-    lat = [r["robots"]["seconds"] for r in R if r["robots"]["status"] == 200]
-    print(f"\nrobots.txt latency  median {statistics.median(lat):.3f}s  "
-          f"p90 {sorted(lat)[int(.9*len(lat))]:.3f}s  n={len(lat)}")
-    sl = [r["sitemap"]["seconds"] for r in R if r["sitemap"]["status"] == 200]
-    print(f"sitemap latency     median {statistics.median(sl):.3f}s  "
-          f"p90 {sorted(sl)[int(.9*len(sl))]:.3f}s  n={len(sl)}")
+    for key in ("robots", "sitemap"):
+        lat = sorted(r[key]["seconds"] for r in R
+                     if r[key]["status"] == 200 and r[key]["seconds"] is not None)
+        if lat:
+            import math
+            print(f"{key} latency median {statistics.median(lat):.3f}s "
+                  f"p90 {lat[max(0, math.ceil(.9*len(lat))-1)]:.3f}s n={len(lat)}")
+        else:
+            print(f"{key} latency unavailable n=0")
 
-    ages = [r["sitemap"]["youngest_lastmod_days"] for r in R
-            if r["sitemap"].get("youngest_lastmod_days") is not None]
-    if ages:
-        print(f"\nyoungest sitemap lastmod  median {statistics.median(ages):.2f} days  n={len(ages)}")
-    fa = [r["feed"]["youngest_item_days"] for r in R
-          if r["feed"].get("youngest_item_days") is not None]
-    if fa:
-        print(f"youngest feed item        median {statistics.median(fa):.2f} days  n={len(fa)}")
+    if d.get("rig_version") == "1.1":
+        for key, field in (("sitemap", "youngest_lastmod_days"), ("feed", "youngest_item_days")):
+            ages = [r[key][field] for r in R if r[key].get(field) is not None]
+            if ages:
+                print(f"youngest {key} timestamp median {statistics.median(ages):.2f} days n={len(ages)}")
+    else:
+        print("Historical v1.0 freshness summary withdrawn: incomplete timestamp scan.")
 
     print("\nfailures and refusals:")
     for r in R:
