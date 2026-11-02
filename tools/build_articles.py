@@ -4,17 +4,22 @@ ROOT=Path(__file__).resolve().parents[1]
 def esc(x):return html.escape(str(x),quote=True)
 def localize(body):
  parts=re.split(r'(<pre\b[^>]*>.*?</pre>|<code\b[^>]*>.*?</code>)',body,flags=re.S)
- changes={'recognised':'recognized','recognises':'recognizes','recognise':'recognize','normalisation':'normalization','normalising':'normalizing','behaviour':'behavior','labelled':'labeled','localisation':'localization','analysed':'analyzed','per cent':'percent','2 November 2026':'November 2, 2026'}
+ changes={'Recognised':'Recognized','recognised':'recognized','recognises':'recognizes','recognise':'recognize','normalisation':'normalization','normalising':'normalizing','behaviour':'behavior','labelled':'labeled','localisation':'localization','analysed':'analyzed','per cent':'percent','2 November 2026':'November 2, 2026'}
  for i in range(0,len(parts),2):
   for old,new in changes.items():parts[i]=parts[i].replace(old,new)
  return ''.join(parts)
 def shell(path,body):
  body=localize(body)
+ def keep_last_pair(match):
+  pair=match.group(1)
+  return (pair.rsplit(' ',1)[0]+'&nbsp;'+pair.rsplit(' ',1)[1] if len(html.unescape(pair)) < 40 else pair)+match.group(2)
+ body=re.sub(r'([^\s<>]+ [^\s<>]+)(</p>)',keep_last_pair,body)
  p=ROOT/path;s=p.read_text().replace('lang="en-GB"','lang="en-US"');s=s[:s.index('<body>')]+'<body>\n<div class="wrap">\n'+body+'\n</div>\n</body>\n</html>\n'
  s=re.sub(r'\n\*\{box-sizing:border-box\}.*?(?=</style>)','',s,flags=re.S)
  s=s.replace('</style>','''
 *{box-sizing:border-box}
 h1{text-align:center;max-width:20ch;margin-inline:auto}
+p,li{text-wrap:pretty}
 :focus-visible{outline:3px solid var(--flag);outline-offset:4px}
 nav{font-family:var(--mono);font-size:.8rem;margin-bottom:1.7rem;display:flex;flex-wrap:wrap;gap:.8rem 1.3rem}
 pre{max-height:32rem;overscroll-behavior:contain}
@@ -63,13 +68,13 @@ run_path='dead-web/runs/run_2026-11-02_v1_2.json';d=json.loads((ROOT/run_path).r
 category=''.join(f'<tr><td>{esc(k)}</td><td>{v["either"]}/{v["n"]}</td></tr>' for k,v in sorted(q['categories'].items()))
 rows=''.join(f'<tr><td>{esc(r["domain"])}</td><td>{esc(r["robots"]["status"] or "no response")}</td><td>{esc(r["sitemap"]["parsed_kind"] if m.sitemap_ok(r) else "not found")}</td><td>{r["sitemap"]["entries"] if m.sitemap_ok(r) else "—"}</td><td>{esc(r["feed"]["parsed_kind"] if m.feed_ok(r) else "not found")}</td><td>{sum(x.get("error")=="deadline exceeded" for x in r["requests"])}</td></tr>' for r in d['results'])
 body=nav+f'''<main id="main"><h1>What the dead web still publishes</h1>
-<p class="standfirst">Before paying for discovery, check what a site already publishes. A fresh probe found a recognised sitemap or feed on {c['either']} of {n} selected domains. The failures show why a crawler needs to distinguish absence from an unanswered request.</p>
+<p class="standfirst">A fresh probe found a recognized sitemap or feed on {c['either']} of {n} selected domains. Before paying for discovery, check what a site already publishes, and distinguish a missing result from an unanswered request.</p>
 <p class="byline"><span>Nathaniel Robertson</span><span>2 November 2026</span><span>v1.2</span></p>
 <p>A sitemap can supply a list of URLs without making a crawler discover every link itself. A feed can expose recent entries. Neither tells you where a page ranks in a search engine. That distinction decides which job the free structured web can do, and which job needs a different source.</p>
 <p>I tested a fixed list of {n} domains across 12 categories, five per category. It is deliberately varied and hand-picked. It is not representative of the web, and the percentages below describe only this list, this method, and this execution environment.</p>
 <div class="figs">{fig(c['either'],'sitemap or feed found')}{fig(c['sitemap'],'recognised sitemap roots')}{fig(c['feed'],'recognised feeds')}{fig(c['neither_found'],'neither found by probe')}</div>
 <h2>What the probe actually did</h2>
-<p>The run started at {esc(q['run_started_utc'])} and finished at {esc(q['run_finished_utc'])}. Rig v1.2 used eight concurrent domain workers, with requests within a domain made sequentially and a 0.4-second pause between attempts. Each request had a six-second elapsed deadline covering worker startup, DNS, redirects, body reads, and decompression.</p>
+<p>The run took place on November 2, 2026, from {esc(q['run_started_utc'][11:19])} to {esc(q['run_finished_utc'][11:19])} UTC. Exact timestamps are in the dated JSON. Rig v1.2 used eight concurrent domain workers, with requests within a domain made sequentially and a 0.4-second pause between attempts. Each request had a six-second elapsed deadline covering worker startup, DNS, redirects, body reads, and decompression.</p>
 <p>For each domain: fetch <code>robots.txt</code>; try up to five declared sitemaps and the conventional fallback until a recognised sitemap root is found; fetch the homepage; try up to ten declared RSS or Atom links, then six conventional feed paths. RSS 2.0, RSS 1.0, and Atom are recognised. Final redirect URLs are recorded, and relative feed links are resolved against the final homepage and its first HTML base URL.</p>
 <p>Recognised means the XML root matches a supported format. It does not mean that the file is populated, complete, correctly maintained, or that its listed URLs resolve. One of the {c['sitemap']} recognised sitemap roots had zero entries.</p>
 <h2>The useful number, and its denominator</h2>
