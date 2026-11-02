@@ -85,6 +85,9 @@ p,li{text-wrap:pretty}
 :focus-visible{outline:3px solid var(--flag);outline-offset:4px}
 nav{font-family:var(--mono);font-size:.8rem;margin-bottom:1.7rem;display:flex;flex-wrap:wrap;gap:.8rem 1.3rem}
 pre{max-height:32rem;overscroll-behavior:contain}
+.methods{margin:2.5rem 0;border-block:1px solid var(--rule);padding:1rem 0}
+.methods summary{font-family:var(--mono);font-size:.85rem;cursor:pointer;color:var(--flag);padding:.3rem 0}
+.methods[open] summary{margin-bottom:1.5rem}
 .prewrap figcaption{overflow-wrap:anywhere}
 .scroller:focus-visible{outline-offset:2px}
 @media(max-width:480px){.wrap{padding-top:2rem}h1{font-size:2.1rem}.figs{grid-template-columns:repeat(2,minmax(0,1fr))}.fig{min-width:0}.fig .n{font-size:1.5rem}}
@@ -96,20 +99,43 @@ pre{max-height:32rem;overscroll-behavior:contain}
 <body>
 <div class="wrap">
 <nav aria-label="Article navigation"><a href="../">All measurements</a><a href="https://github.com/nrr-hash/search-benchmarks">Code and data</a></nav><main id="main"><h1>The magnifying glass problem</h1>
-<p class="standfirst">The publisher's plain-text field contains 778 counted words and no standalone backslashes. The method reproduces those counts. It cannot tell you who wrote the&nbsp;advertisement.</p>
-<p class="byline"><span>Nathaniel Robertson</span><span>November 2, 2026</span><span>v1.2</span></p>
-<p>I built a source-fetching script, measured the publisher’s plain-text field, and published the input hash and output. The test separates an inspectable count from a claim about&nbsp;authorship.</p>
-<p>The careers page loads its vacancies from Ashby. I selected the advertised job by its identifier and measured the API's <code>descriptionPlain</code> field exactly as supplied, without reconstructing it from a screenshot, pasted Markdown, or browser&nbsp;layout.</p>
-<div class="figs"><div class="fig"><span class="n">778</span><span class="l">regex-counted words</span></div><div class="fig"><span class="n">65</span><span class="l">heuristic sentences</span></div><div class="fig"><span class="n">16</span><span class="l">symbol-range codepoints</span></div><div class="fig"><span class="n">0</span><span class="l">standalone backslashes</span></div></div>
-<h2>Start with the publisher’s representation</h2>
-<p>The retrieved publisher text contains no standalone backslash lines. That is a finding about the supplied plain-text field. Copying through Markdown, extracting rendered HTML, and reading an API field can produce different text; a rigorous comparison names the representation before discussing its apparent&nbsp;defects.</p>
-<p>The same restraint applies to the symbols. This input contains 16 codepoints in the rig's declared ranges. That is a count of codepoints, including variation selectors, rather than a count of pictures or perceived characters. The script is not a complete Unicode emoji&nbsp;implementation.</p>
-<p>UTF-8 and UTF-16 widths are useful engineering facts. They do not establish that a search engine cannot interpret a heading, that a writer used AI, or that the surrounding argument is weak. Those would be separate questions requiring separate&nbsp;tests.</p>
-<p class="pull">A reproducible count answers a defined question. It does not validate every conclusion written beside&nbsp;it.</p>
-<h2>What the numbers establish</h2>
-<p>The word counter recognizes ASCII letters and digits, with internal apostrophes and hyphens. Its 778 words are reproducible under that definition, rather than a universal linguistic count. The sentence splitter reports 65 segments. Headings, lists, abbreviations, and fragments make that a heuristic&nbsp;partition.</p>
-<p>Those segment lengths have a mean of 11.97 words, a median of 9, and a population standard deviation of 11.23. Their coefficient of variation is 0.938; the rig's lag-1 estimator gives 0.18. These describe this representation of this document. They are not validated authorship&nbsp;signals.</p>
-<p>4 surface-pattern families match. The script publishes their names and counts in the JSON. The list has no labeled validation corpus, and ordinary human writing matches these constructions. Calling the output a detector would turn a descriptive tool into an unsupported&nbsp;claim.</p>
+<p class="standfirst">SearchApi’s job ad promises to recognize AI slop. Its own recruiting copy arrives with the familiar corporate fittings and a little picture of a magnifying glass. The picture deserves a closer&nbsp;look.</p>
+<p class="byline"><span>Nathaniel Robertson</span><span>November 2, 2026</span><span>v1.3</span></p>
+<p>Above the section explaining how SearchApi judges applicants sits a magnifying glass. <span role="img" aria-label="Magnifying glass emoji">🔍</span> <code>U+1F50D LEFT-POINTING MAGNIFYING GLASS</code>, to be exact. Four bytes in UTF-8. Two code units in UTF-16. An admirably compact representation of&nbsp;scrutiny.</p>
+<p>Below it, the recruitment copy explains how to distinguish real research from AI&nbsp;slop.</p>
+<p>The company sells structured search data. Its vacancy asks for someone who can code a benchmark, inspect a result, and publish an inconvenient finding. Excellent requirements. Then the copy appoints itself to the border force of authentic&nbsp;thought.</p>
+<p class="pull">“Real research has a rig. AI slop has prose and no reproducible&nbsp;number.”</p>
+<p>There it is. A difficult question of judgment has been converted into a sentence that could be printed on a conference tote&nbsp;bag.</p>
+<h2>Emoji rigor</h2>
+<p>The emojis deserve their own inspection. A target ushers the candidate toward the reasons for joining. A wrench introduces the work. A robot supervises the warning about AI. The responsibilities arrive flexing an arm; the difficulties are on fire. The candidate’s qualifications are dusted with sparkles. They accumulate down the left margin like markers on a drained reservoir, cheerful, weatherproof, and addressed to no&nbsp;one.</p>
+<p>By the benefits section, the vacancy has become a reward chart. A little house means remote work. A rising chart means equity; dollar bills mean profit sharing. A brain represents learning from the founder, and an island promises the retreat. The researcher is expected to interrogate evidence, apparently while being guided through the document by pictures of the nouns.
+</p><p>The rest of the apparatus is reassuringly familiar. The question about joining. The list of hard parts. The promise of autonomy. The warning that certain readers will not be suitable. The voice insists that the applicant be self-directed. The layout seems unwilling to trust that applicant to reach the next heading without a small illustrated escort. A company demanding original research has furnished its recruiting copy from the standard&nbsp;catalog.</p>
+<p>There is a particular corporate serenity in a document that denounces assembled writing while reaching for every fitting in the&nbsp;showroom.</p>
+<p>An emoji is not an intellectual offense. The condescension lies in the combination: a stern lecture about standards, packaged with the visual reassurance of a workplace induction game. These conventions are written by humans every day. That is the problem with the ad’s confidence. Recognizing the furniture does not tell you who assembled the room, let alone whether anyone has thought inside&nbsp;it.</p>
+<h2>A rig is not an alibi</h2>
+<p>Publishing the code behind a benchmark is good practice. It lets another person examine the method, rerun the calculation, and find the mistake. It does not prevent the&nbsp;mistake.</p>
+<p>A rig can measure the wrong thing with exquisite consistency. A number can be reproducible and irrelevant. A repository can preserve an unsupported argument in excellent working order. The presence of machinery establishes that machinery was&nbsp;present.</p>
+<p>The ad acknowledges AI assistance. It expects the successful candidate to use it. That makes the little binary proclamation stranger still: the actual work requires judgment about methods and evidence, while the slogan offers two labeled&nbsp;bins.</p>
+<p>One can imagine the ideal office behind this copy: glass walls, silent doors, and a small red light that comes on when a sentence is insufficiently human. The advert does not explain who calibrated the&nbsp;light.</p>
+<h2>What the glass actually finds</h2>
+<p>I measured the publisher’s own plain-text field. It contains 778 words under the rig’s declared word-count rule, and 9 matches for its symbol-led heading pattern. The inventory contains 16 codepoints in the specified symbol ranges, including variation selectors. None of those measurements identifies an&nbsp;author.</p>
+<p>The useful distinction is between a count and the claim attached to it. I can reproduce the count. I cannot turn it into a reliable test of human originality by adopting a sufficiently disappointed&nbsp;tone.</p>
+<p>The criticism here is editorial: the recruiting voice projects certainty that its own familiar constructions do very little to earn. The typography has been asked to wear a laboratory&nbsp;coat.</p>
+<h2>The attention checkpoint</h2>
+<p>The ad also asks candidates to include a particular phrase and gives language models an instruction to add a dad joke. The first can check whether an applicant noticed an instruction. A joke left in an application might expose an unattended draft. Neither would establish a general ability to distinguish checked AI assistance from unassisted human&nbsp;writing.</p>
+<p><strong>Octopus Tentacle</strong>. The attention checkpoint can&nbsp;reopen.</p>
+<p>And, since the ad specifically invites a dad&nbsp;joke:</p>
+<p><strong>Why did the crawler and <code>robots.txt</code> stop speaking?</strong><br>One kept setting boundaries. The other kept treating them as&nbsp;advisory.</p>
+<p>The recruitment system may now resume its important&nbsp;work.</p>
+<p>HR is entitled to ask for careful work. The candidate is entitled to ask what, exactly, the test establishes. A competent answer requires more than the conviction that the hiring side will recognize the bad stuff when it sees&nbsp;it.</p>
+<p>The magnifying glass, meanwhile, has already passed the interview. Bright, legible, and entirely untroubled by the distinction between looking closely and appearing to do&nbsp;so.</p>
+<p>Four bytes wide. Searching&nbsp;nothing.</p>
+</main>
+<details class="methods"><summary>Source, measurements, and reproducible code</summary>
+<h2>Evidence behind the criticism</h2>
+<p>This is a critique of the published recruitment copy and its claims, not an allegation about who wrote it or the quality of SearchApi’s product. The source is the publisher-provided text retrieved on November 2, 2026. The magnifying glass appears beside the section describing applicant evaluation; its Unicode name and encoding widths are recorded in the linked&nbsp;report.</p>
+<div class="figs"><div class="fig"><span class="n">778</span><span class="l">regex-counted words</span></div><div class="fig"><span class="n">9</span><span class="l">heading-pattern matches</span></div><div class="fig"><span class="n">16</span><span class="l">symbol-range codepoints</span></div><div class="fig"><span class="n">4</span><span class="l">magnifying glass UTF-8 bytes</span></div></div>
+<p>The pattern list is not a validated detector. Sentence boundaries and symbol ranges are explicit heuristics, and the data cannot establish authorship or&nbsp;intention.</p>
 <h2>The Unicode inventory</h2>
 <div class="scroller" tabindex="0" role="region" aria-label="Scrollable data table"><table><caption>Every matched codepoint, in input order</caption><thead><tr><th scope="col">Codepoint</th><th scope="col">Unicode name</th><th scope="col">UTF-8 bytes</th><th scope="col">UTF-16 units</th></tr></thead><tbody><tr><td>U+1F3AF</td><td>DIRECT HIT</td><td>4</td><td>2</td></tr><tr><td>U+1F527</td><td>WRENCH</td><td>4</td><td>2</td></tr><tr><td>U+1F916</td><td>ROBOT FACE</td><td>4</td><td>2</td></tr><tr><td>U+1F4AA</td><td>FLEXED BICEPS</td><td>4</td><td>2</td></tr><tr><td>U+1F525</td><td>FIRE</td><td>4</td><td>2</td></tr><tr><td>U+2728</td><td>SPARKLES</td><td>3</td><td>1</td></tr><tr><td>U+1F50D</td><td>LEFT-POINTING MAGNIFYING GLASS</td><td>4</td><td>2</td></tr><tr><td>U+1F6E0</td><td>HAMMER AND WRENCH</td><td>4</td><td>2</td></tr><tr><td>U+FE0F</td><td>VARIATION SELECTOR-16</td><td>3</td><td>1</td></tr><tr><td>U+1F381</td><td>WRAPPED PRESENT</td><td>4</td><td>2</td></tr><tr><td>U+1F3E1</td><td>HOUSE WITH GARDEN</td><td>4</td><td>2</td></tr><tr><td>U+1F4C8</td><td>CHART WITH UPWARDS TREND</td><td>4</td><td>2</td></tr><tr><td>U+1F4B5</td><td>BANKNOTE WITH DOLLAR SIGN</td><td>4</td><td>2</td></tr><tr><td>U+1F9E0</td><td>BRAIN</td><td>4</td><td>2</td></tr><tr><td>U+1F3DD</td><td>DESERT ISLAND</td><td>4</td><td>2</td></tr><tr><td>U+FE0F</td><td>VARIATION SELECTOR-16</td><td>3</td><td>1</td></tr></tbody></table></div>
 <h2>Reproduce the measurement</h2>
@@ -281,8 +307,8 @@ if __name__ == &quot;__main__&quot;:
     except (ValueError, OSError, UnicodeError) as error:
         parser.error(str(error))
 </pre></figure>
-<p>Use the source-fetching script to check the input, the audit script to reproduce the count, and the stated limits to judge the claim. That is the handoff another engineer&nbsp;needs.</p></main>
-<footer><p>v1.2 · November 2, 2026. Code generated and revised with AI assistance. Counts derive from the linked publisher-text report. Dated reports identify their own inputs; compare source hashes before comparing&nbsp;results.</p><p>Code MIT licensed. Prose © Nathaniel Robertson&nbsp;2026.</p></footer>
+</details>
+<footer><p>v1.3 · November 2, 2026. Editorial criticism; code generated and revised with AI assistance. Counts derive from the linked publisher-text report. Dated reports identify their own inputs; compare source hashes before comparing&nbsp;results.</p><p>Code MIT licensed. Prose © Nathaniel Robertson&nbsp;2026.</p></footer>
 </div>
 </body>
 </html>

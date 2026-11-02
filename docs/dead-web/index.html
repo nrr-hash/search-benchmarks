@@ -86,6 +86,9 @@ p,li{text-wrap:pretty}
 :focus-visible{outline:3px solid var(--flag);outline-offset:4px}
 nav{font-family:var(--mono);font-size:.8rem;margin-bottom:1.7rem;display:flex;flex-wrap:wrap;gap:.8rem 1.3rem}
 pre{max-height:32rem;overscroll-behavior:contain}
+.methods{margin:2.5rem 0;border-block:1px solid var(--rule);padding:1rem 0}
+.methods summary{font-family:var(--mono);font-size:.85rem;cursor:pointer;color:var(--flag);padding:.3rem 0}
+.methods[open] summary{margin-bottom:1.5rem}
 .prewrap figcaption{overflow-wrap:anywhere}
 .scroller:focus-visible{outline-offset:2px}
 @media(max-width:480px){.wrap{padding-top:2rem}h1{font-size:2.1rem}.figs{grid-template-columns:repeat(2,minmax(0,1fr))}.fig{min-width:0}.fig .n{font-size:1.5rem}}
@@ -97,26 +100,36 @@ pre{max-height:32rem;overscroll-behavior:contain}
 <body>
 <div class="wrap">
 <nav aria-label="Article navigation"><a href="../">All measurements</a><a href="https://github.com/nrr-hash/search-benchmarks">Code and data</a></nav><main id="main"><h1>What the dead web still publishes</h1>
-<p class="standfirst">A fresh probe found a recognized sitemap or feed on 38 of 60 selected domains. Before paying for discovery, check what a site already publishes, and distinguish a missing result from an unanswered&nbsp;request.</p>
-<p class="byline"><span>Nathaniel Robertson</span><span>November 2, 2026</span><span>v1.2</span></p>
-<p>A sitemap can supply a list of URLs without making a crawler discover every link itself. A feed can expose recent entries. Neither tells you where a page ranks in a search engine. That distinction decides which job the free structured web can do, and which job needs a different&nbsp;source.</p>
-<p>I tested a fixed list of 60 domains across 12 categories, five per category. It is deliberately varied and hand-picked. It is not representative of the web, and the percentages below describe only this list, this method, and this execution&nbsp;environment.</p>
+<p class="standfirst">Before giving a crawler a job, I checked what the sites were already publishing. A recognized sitemap or feed turned up on 38 of 60 selected domains. Some of the supposedly difficult discovery work was waiting by the front&nbsp;door.</p>
+<p class="byline"><span>Nathaniel Robertson</span><span>November 2, 2026</span><span>v1.3</span></p>
+<p>The web can resemble a business park after visiting hours: glass frontages, silent lobbies, and systems still announcing themselves to an audience that has moved elsewhere. It is tempting to arrive with more&nbsp;machinery.</p>
+<p>I tried the filing cabinet&nbsp;first.</p>
+<p>A sitemap can list a site’s URLs. A feed can expose recent entries. These are modest, inspectable ways of publishing structured information. Neither needs to know that a visitor has arrived with a budget for something more&nbsp;elaborate.</p>
+<p>SearchApi’s recruitment ad asks for writers who build their own research rigs. Fair enough. Here is one, built to answer a question that ought to come before a purchasing decision: what can these sites already tell us about&nbsp;themselves?</p>
 <div class="figs"><div class="fig"><span class="n">38</span><span class="l">sitemap or feed found</span></div><div class="fig"><span class="n">34</span><span class="l">recognized sitemap roots</span></div><div class="fig"><span class="n">12</span><span class="l">recognized feeds</span></div><div class="fig"><span class="n">22</span><span class="l">neither found by probe</span></div></div>
+<h2>The files nobody has to sell you</h2>
+<p>On this fixed list, 38 of 60 domains supplied a recognized sitemap or feed through the checks. That is 63.3 percent of a deliberately varied, hand-picked list, not an estimate of the whole web. One recognized sitemap had no entries. Parsing the label on a filing cabinet does not establish what is inside&nbsp;it.</p>
+<p>For an inventory or a change-monitoring task, that is still a useful place to begin. Try the declared structure before making a crawler infer it. The fashionable part of the system may be the part you need least for that particular&nbsp;job.</p>
+<h2>The doors that did not open</h2>
+<p>The rig found neither supported format on 22 domains. Its 485 recorded attempts included 166 deadline failures. Those failures belong in the result. Leaving them out would make the route look easier than it&nbsp;was.</p>
+<p>They also limit the conclusion. A six-second deadline can stop an experiment before a server supplies its answer. A failed discovery attempt does not establish that a site publishes nothing. The locked door and the empty room are different&nbsp;findings.</p>
+<h2>The vendor’s own front door</h2>
+<p>SearchApi was one of the five search-data and scraping vendors on the list. Its fallback <code>/sitemap.xml</code> request returned 404 after redirecting to the <code>www</code> host. The <code>robots.txt</code> request hit the deadline. The probe found no supported&nbsp;feed.</p>
+<p>A company selling structured discovery is an interesting place for that route to fail. It is not evidence that the company has no sitemap anywhere, still less a benchmark of its product. A 404 is an answer about an address. It is not a character&nbsp;reference.</p>
+<h2>Buy the part that does the job</h2>
+<p>A sitemap does not tell you where a page ranks, which competitors appear above it, or what a search result page looked like yesterday. Those are different research questions. A SERP API and a site’s own inventory are not interchangeable merely because both contain&nbsp;URLs.</p>
+<p>The useful distinction is the job. Use declared structure when the task is discovery and the structure is adequate. Use a different source when the task needs evidence the site’s inventory cannot supply. This experiment compares no paid products and makes no claim about their relative&nbsp;performance.</p>
+<p>The apparatus matters. So does asking a question worth attaching it&nbsp;to.</p>
+<p>Before commissioning another expedition, check the&nbsp;noticeboard.</p>
+</main>
+<details class="methods"><summary>Method, dated results, limitations, and code</summary>
 <h2>What the probe actually did</h2>
 <p>The run took place on November 2, 2026, from 01:50:54 to 01:56:11 UTC. Exact timestamps are in the dated JSON. Rig v1.2 used eight concurrent domain workers, with requests within a domain made sequentially and a 0.4-second pause between attempts. Each request had a six-second elapsed deadline covering worker startup, DNS, redirects, body reads, and&nbsp;decompression.</p>
 <p>For each domain: fetch <code>robots.txt</code>; try up to five declared sitemaps and the conventional fallback until a recognized sitemap root is found; fetch the homepage; try up to ten declared RSS or Atom links, then six conventional feed paths. RSS 2.0, RSS 1.0, and Atom are recognized. Final redirect URLs are recorded, and relative feed links are resolved against the final homepage and its first HTML base&nbsp;URL.</p>
 <p>Recognized means the XML root matches a supported format. It does not mean that the file is populated, complete, correctly maintained, or that its listed URLs resolve. One of the 34 recognized sitemap roots had zero&nbsp;entries.</p>
-<h2>The useful number, and its denominator</h2>
-<p>38 of 60 domains, 63.3 percent, supplied at least one supported format through these checks. 22 did not. The latter is a failed discovery result, not a claim that those sites publish&nbsp;nothing.</p>
-<p>The request ledger contains 485 explicit attempts, including 166 deadline failures. That is a substantial access limitation. A different deadline, network, execution environment, user-agent, or discovery route could find more. No inferred bot policy is assigned to a timeout, a reset, or a bare HTTP&nbsp;status.</p>
-<p class="pull">The probe can prove that it retrieved a structured file. A failed request cannot prove that the file does not&nbsp;exist.</p>
-<p>Elapsed timings are published in the JSON summary, with denominators. They include client overhead and automatic redirects, and the six-second deadline censors slower observations. They are useful for explaining this run's cost, not for ranking servers or comparing directly with the earlier v1.0&nbsp;run.</p>
 <h2>Results by category</h2>
 <div class="scroller" tabindex="0" role="region" aria-label="Scrollable data table"><table><caption>Either supported sitemap or feed found; five selected domains per category</caption><thead><tr><th scope="col">Category</th><th scope="col">Found / tested</th></tr></thead><tbody><tr><td>aivendor</td><td>4/5</td></tr><tr><td>blogplat</td><td>4/5</td></tr><tr><td>devdocs</td><td>5/5</td></tr><tr><td>ecom</td><td>4/5</td></tr><tr><td>forum</td><td>3/5</td></tr><tr><td>gov</td><td>3/5</td></tr><tr><td>news</td><td>1/5</td></tr><tr><td>retailnews</td><td>2/5</td></tr><tr><td>saas</td><td>4/5</td></tr><tr><td>science</td><td>3/5</td></tr><tr><td>serpvendor</td><td>3/5</td></tr><tr><td>uni</td><td>2/5</td></tr></tbody></table></div>
 <p>Category totals are descriptive. Five hand-picked sites cannot establish that an industry is better at publishing structured data, or explain the intent of the people maintaining those&nbsp;sites.</p>
-<h2>What this means for a research job</h2>
-<p>For a content inventory, start with a site's own declarations and test whether they are useful. That may remove an unnecessary discovery pass. For historical search results, ranking, or search-engine features, use a source that actually measures those things. A sitemap is not a substitute for a SERP&nbsp;API.</p>
-<p>This experiment does not benchmark SearchApi's product, any competing vendor's product, or paid crawling. It measures the availability of selected public endpoints through one stated procedure. A fair product comparison would need a shared task, ground truth, repeated runs, and comparable access&nbsp;conditions.</p>
 <div class="limits"><h3>Scope</h3><ul><li>No random sampling, geographic comparison, controlled time series, or estimate of the whole web.</li><li>Sitemap indexes are not traversed. Their entry counts refer to child sitemap elements, while URL sets count URL elements.</li><li>Discovery is bounded: first five declared sitemaps, first ten homepage feed links, and six fallback feed paths. Omitted candidates are counted in the JSON.</li><li>Publisher timestamps are declarations. This article makes no verified content-freshness claim from them.</li><li>HTTP timings include subprocess startup and transfer overhead. Request deadlines and network conditions materially affect the findings.</li></ul></div>
 <h2>Reproduce it</h2>
 <p>From the repository&nbsp;root:</p><pre>python3 dead-web/deadtech_bench.py dead-web/seeds.txt new-run.json --timeout 6 --workers 8 --pause 0.4
@@ -520,8 +533,8 @@ if __name__ == &quot;__main__&quot;:
     else:
         main()
 </pre></figure>
-<p>The practical decision is small and testable: inspect a site's structured declarations before designing a discovery pipeline, and budget for the cases where that route&nbsp;fails.</p></main>
-<footer><p>v1.2 · November 2, 2026. Scripts generated and revised with AI assistance. Counts are computed from the linked run; local response-body hashes and selected parse results were checked by code. This is model-run verification, not independent human&nbsp;sign-off.</p><p>Code MIT licensed. Prose © Nathaniel Robertson 2026. Earlier dated runs remain separate; method changes prevent treating the difference as a web-wide&nbsp;trend.</p></footer>
+</details>
+<footer><p>v1.3 · November 2, 2026. Scripts generated and revised with AI assistance. Counts are computed from the linked run; local response-body hashes and selected parse results were checked by code. This is model-run verification, not independent human&nbsp;sign-off.</p><p>Code MIT licensed. Prose © Nathaniel Robertson 2026. Earlier dated runs remain separate; method changes prevent treating the difference as a web-wide&nbsp;trend.</p></footer>
 </div>
 </body>
 </html>
