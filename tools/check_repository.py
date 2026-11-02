@@ -38,6 +38,11 @@ def main():
         assert selected['parsed_kind']==entry['parsed_kind']
         assert selected['entries' if entry['endpoint']=='sitemap' else 'items']==entry['element_count']
         assert any(req['body_sha256']==entry['body_sha256'] and req['url']==entry['url'] for req in row['requests'])
+    landing=(ROOT/'docs/index.html').read_text()
+    advertisement=json.loads((ROOT/'ad-audit/results/job_2026-11-02.json').read_text())
+    assert f"{summary['counts']['either']} supplied" in landing,'landing detection count stale'
+    assert f"{summary['requests_recorded']} recorded requests" in landing,'landing request count stale'
+    assert f"{advertisement['words']} counted words" in landing,'landing word count stale'
     docs=ROOT/'docs';pages=list(docs.rglob('*.html'));external=set()
     for page in pages:
         source=page.read_text();parser=Links();parser.feed(source)
