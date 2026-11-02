@@ -8,6 +8,8 @@ import importlib.util
 import json
 import re
 import subprocess
+import shutil
+import tempfile
 import sys
 
 def require(condition, message):
@@ -70,8 +72,13 @@ def main():
         require((docs/path).is_file(), 'published URL path removed')
     files=sorted(docs.rglob('*.html'))+[ROOT/'dead-web/results/summary_2026-11-02.json']
     before={str(p):p.read_bytes() for p in files}
-    subprocess.run([sys.executable,str(ROOT/'tools/build_articles.py')],check=True)
-    require(all(p.read_bytes()==before[str(p)] for p in files), 'article generation is not reproducible')
+    # A check must not overwrite the very published output it is checking.
+    with tempfile.TemporaryDirectory() as temporary:
+        copy = Path(temporary) / 'repository'
+        shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns('.git', '__pycache__', 'bodies'))
+        subprocess.run([sys.executable, str(copy/'tools/build_articles.py')], check=True)
+        require(all((copy/p.relative_to(ROOT)).read_bytes()==before[str(p)] for p in files),
+                'article generation is not reproducible')
     print(json.dumps({'status':'PASS','pages':len(pages),'external_links':sorted(external)},indent=2))
 
 if __name__=='__main__':main()

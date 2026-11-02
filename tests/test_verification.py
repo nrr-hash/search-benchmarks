@@ -5,6 +5,7 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+import shutil
 import sys
 import tempfile
 import unittest
@@ -72,3 +73,17 @@ class Verification(unittest.TestCase):
                                 capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('deliberate corruption', result.stderr)
+
+    def test_failed_rebuild_check_does_not_overwrite_articles(self):
+        with tempfile.TemporaryDirectory() as temp:
+            copy = Path(temp) / 'repository'
+            shutil.copytree(ROOT, copy, ignore=shutil.ignore_patterns('__pycache__', '.git'))
+            article = copy / 'docs/dead-web/index.html'
+            changed = article.read_bytes().replace(b'The web can resemble', b'This web can resemble', 1)
+            self.assertNotEqual(changed, article.read_bytes())
+            article.write_bytes(changed)
+            result = subprocess.run([sys.executable, str(copy/'tools/check_repository.py')],
+                                    capture_output=True, text=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn('not reproducible', result.stderr)
+            self.assertEqual(article.read_bytes(), changed, 'checker overwrote article prose')
