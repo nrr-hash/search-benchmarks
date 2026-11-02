@@ -1,72 +1,90 @@
 #!/usr/bin/env python3
-"""
-analyse.py - summarise a deadtech_bench.py run.
+"""Summarise a dated probe run; --json emits the same data used by the article."""
+import argparse
+import json
+import math
+from pathlib import Path
+import statistics
 
-Usage:  python3 analyse.py runs/run_2026-10-31.json
 
-Prints the headline rates, latency, freshness, failures, and a per-category
-breakdown. Every figure in the published write-up comes from this file.
-"""
-import json, statistics, sys
+def sitemap_ok(row):
+    sm = row['sitemap']
+    return sm['status'] == 200 and sm['parsed_kind'] in ('urlset', 'sitemapindex')
 
-def sitemap_ok(r):
-    return r["sitemap"]["status"] == 200 and r["sitemap"]["parsed_kind"] in ("urlset", "sitemapindex")
 
-def feed_ok(r):
-    return r["feed"]["parsed_kind"] in ("rss", "atom", "rss1")
+def feed_ok(row):
+    feed = row['feed']
+    return feed.get('status') == 200 and feed['parsed_kind'] in ('rss', 'atom', 'rss1')
 
-def main(path):
-    from pathlib import Path
-    d = json.loads(Path(path).read_text(encoding="utf-8"))
-    R = d["results"]
-    n = len(R)
-    def rate(label, c):
-        print(f"{label:<34} {c:>3}/{n}  ({(100*c/n if n else 0):5.1f}%)")
 
-    print(f"run started  {d['run_started_utc']}")
-    print(f"run finished {d['run_finished_utc']}")
-    print(f"seeds        {n}\n")
+def latency(rows, key):
+    values = sorted(row[key]['seconds'] for row in rows
+                    if row[key].get('status') == 200 and row[key].get('seconds') is not None)
+    return {'n': len(values), 'median_s': statistics.median(values) if values else None,
+            'p90_s': values[math.ceil(.9*len(values))-1] if values else None,
+            'definition': 'successful selected endpoint probe elapsed time; nearest-rank p90'}
 
-    rate("robots.txt returned 200", sum(1 for r in R if r["robots"]["status"] == 200))
-    rate("robots.txt declares a sitemap", sum(1 for r in R if r["robots"]["declares_sitemap"]))
-    rate("sitemap parses", sum(1 for r in R if sitemap_ok(r)))
-    rate("feed parses", sum(1 for r in R if feed_ok(r)))
-    rate("feed autodiscovered from homepage", sum(1 for r in R if r["feed"]["autodiscovered"]))
-    either = sum(1 for r in R if sitemap_ok(r) or feed_ok(r))
-    rate("EITHER sitemap or feed", either)
-    rate("NEITHER", n - either)
 
-    for key in ("robots", "sitemap"):
-        lat = sorted(r[key]["seconds"] for r in R
-                     if r[key]["status"] == 200 and r[key]["seconds"] is not None)
-        if lat:
-            import math
-            print(f"{key} latency median {statistics.median(lat):.3f}s "
-                  f"p90 {lat[max(0, math.ceil(.9*len(lat))-1)]:.3f}s n={len(lat)}")
-        else:
-            print(f"{key} latency unavailable n=0")
+def summarise(data):
+    rows = data['results']
+    if len({row['domain'] for row in rows}) != len(rows):
+        raise ValueError('duplicate result domains')
+    if data.get('complete') and data.get('seed_count') != len(rows):
+        raise ValueError('complete run has missing results')
+    counts = {
+        'robots_200': sum(r['robots']['status'] == 200 for r in rows),
+        'declares_sitemap': sum(bool(r['robots']['declares_sitemap']) for r in rows),
+        'sitemap': sum(sitemap_ok(r) for r in rows),
+        'populated_sitemap': sum(sitemap_ok(r) and r['sitemap']['entries'] > 0 for r in rows),
+        'feed': sum(feed_ok(r) for r in rows),
+        'autodiscovered_feed': sum(feed_ok(r) and r['feed']['autodiscovered'] for r in rows),
+        'either': sum(sitemap_ok(r) or feed_ok(r) for r in rows),
+    }
+    counts['neither_found'] = len(rows) - counts['either']
+    requests = [req for row in rows for req in row.get('requests', [])]
+    categories = {}
+    for row in rows:
+        category = categories.setdefault(row['category'], {'n': 0, 'either': 0})
+        category['n'] += 1
+        category['either'] += int(sitemap_ok(row) or feed_ok(row))
+    return {'run_started_utc': data['run_started_utc'], 'run_finished_utc': data['run_finished_utc'],
+            'rig_version': data.get('rig_version', '1.0'), 'n': len(rows),
+            'complete': data.get('complete'), 'counts': counts, 'categories': categories,
+            'requests_recorded': len(requests),
+            'request_errors': sum(bool(req.get('error')) for req in requests),
+            'deadline_failures': sum(req.get('error') == 'deadline exceeded' for req in requests),
+            'latency': {key: latency(rows, key) for key in ('robots','sitemap')},
+            'limits': ['Rates describe the fixed seed list and this probe only.',
+                       'Recognised XML roots do not validate inventory completeness or linked URLs.',
+                       'Elapsed times include client processing and redirects; v1.2 includes worker startup.',
+                       'Cross-version observations are not a controlled time series.']}
 
-    if d.get("rig_version") == "1.1":
-        for key, field in (("sitemap", "youngest_lastmod_days"), ("feed", "youngest_item_days")):
-            ages = [r[key][field] for r in R if r[key].get(field) is not None]
-            if ages:
-                print(f"youngest {key} timestamp median {statistics.median(ages):.2f} days n={len(ages)}")
-    else:
-        print("Historical v1.0 freshness summary withdrawn: incomplete timestamp scan.")
 
-    print("\nfailures and refusals:")
-    for r in R:
-        if r["robots"]["status"] != 200:
-            print(f"  {r['domain']:<32} robots={r['robots']['status']}  {r['robots']['error']}")
+def main(path, as_json=False):
+    data = json.loads(Path(path).read_text(encoding='utf-8'))
+    summary = summarise(data)
+    if as_json:
+        print(json.dumps(summary, indent=2))
+        return
+    print(f"run {summary['run_started_utc']} to {summary['run_finished_utc']} | rig {summary['rig_version']}")
+    print(f"observed domains {summary['n']} | complete={summary['complete']}")
+    for label, count in summary['counts'].items():
+        n = summary['n']
+        rate = f'{100*count/n:.1f}%' if n else 'N/A'
+        print(f'{label:24} {count}/{n} ({rate})')
+    for key, stats in summary['latency'].items():
+        print(f'{key} successful elapsed time: {stats}')
+    print('No historical v1.0 freshness summary: timestamps were scanned incompletely.')
+    print(f"request errors: {summary['request_errors']}/{summary['requests_recorded']} recorded attempts")
+    print('categories:', json.dumps(summary['categories'], sort_keys=True))
 
-    print("\nby category (either available):")
-    cats = {}
-    for r in R:
-        c = cats.setdefault(r["category"], [0, 0])
-        c[1] += 1
-        c[0] += sitemap_ok(r) or feed_ok(r)
-    for c, (a, b) in sorted(cats.items(), key=lambda x: (-x[1][0]/x[1][1], x[0])):
-        print(f"  {c:<14} {a}/{b}")
 
-if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "runs/run_2026-10-31.json")
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('run')
+    parser.add_argument('--json', action='store_true')
+    args = parser.parse_args()
+    try:
+        main(args.run, args.json)
+    except (ValueError, KeyError, TypeError, OSError) as error:
+        parser.error(str(error))

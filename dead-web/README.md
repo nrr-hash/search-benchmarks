@@ -1,20 +1,19 @@
-# dead-web
+# Sitemap and feed probe
 
-Does the declared, free, machine-readable web still work?
+Run from the repository root using the commands in the main README. Rig v1.2
+records all explicit attempts, bounds request elapsed time and body sizes,
+resolves relative feed links against the final homepage URL and HTML base,
+and recognises sitemap roots plus RSS 2.0, RSS 1.0, and Atom.
 
-See the repository README for usage. Two things worth repeating here:
+The current completed run is `runs/run_2026-11-02_v1_2.json`. Its derived outputs
+are in `results/`. Raw decoded bodies are local captures, not repository files;
+`tools/verify_run.py` checks them when available. Public-output consistency is
+checked by `tools/check_repository.py`.
 
-1. `seeds.txt` is fixed and hand-picked, not sampled. Percentages describe
-   this list of 60 domains and nothing wider.
-2. Where a domain serves a `sitemapindex`, the `entries` figure counts child
-   sitemaps, not URLs. The script does not recurse. The published write-up
-   says so; if you build on this, that is the first thing to fix.
+A recognised XML root is not a validation of a populated, accurate, or complete
+inventory. Sitemap indexes are not traversed. Missing endpoints are reported as
+not found by this bounded probe. Timeouts and HTTP failures do not establish a
+site's policy. Timestamp parsing cannot verify actual content freshness.
 
-Known gaps, unfixed on purpose so they are visible rather than buried:
-
-- The published observations are one historical v1.0 run, not a time series or variance estimate.
-- The user-agent is not negotiated with any site, so some 403s are bot
-  defence rather than policy.
-- Historical v1.0 freshness values inspected only date prefixes and are withdrawn from the write-up. v1.1 inspects every supplied date, excludes placeholders and future dates, and supports ISO and email formats.
-- A sitemap that parses is not a sitemap that is complete or correct. Checking
-  declared URLs against reality is the obvious next experiment.
+The 31 October run remains historical v1.0 data. It uses a different method and
+its incomplete freshness estimates are not used in the current article.

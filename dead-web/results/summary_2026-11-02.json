@@ -1,0 +1,90 @@
+{
+  "run_started_utc": "2026-11-02T01:50:54.055204+00:00",
+  "run_finished_utc": "2026-11-02T01:56:11.119786+00:00",
+  "rig_version": "1.2",
+  "n": 60,
+  "complete": true,
+  "counts": {
+    "robots_200": 37,
+    "declares_sitemap": 27,
+    "sitemap": 34,
+    "populated_sitemap": 33,
+    "feed": 12,
+    "autodiscovered_feed": 10,
+    "either": 38,
+    "neither_found": 22
+  },
+  "categories": {
+    "news": {
+      "n": 5,
+      "either": 1
+    },
+    "gov": {
+      "n": 5,
+      "either": 3
+    },
+    "devdocs": {
+      "n": 5,
+      "either": 5
+    },
+    "saas": {
+      "n": 5,
+      "either": 4
+    },
+    "ecom": {
+      "n": 5,
+      "either": 4
+    },
+    "blogplat": {
+      "n": 5,
+      "either": 4
+    },
+    "forum": {
+      "n": 5,
+      "either": 3
+    },
+    "uni": {
+      "n": 5,
+      "either": 2
+    },
+    "science": {
+      "n": 5,
+      "either": 3
+    },
+    "aivendor": {
+      "n": 5,
+      "either": 4
+    },
+    "serpvendor": {
+      "n": 5,
+      "either": 3
+    },
+    "retailnews": {
+      "n": 5,
+      "either": 2
+    }
+  },
+  "requests_recorded": 485,
+  "request_errors": 344,
+  "deadline_failures": 166,
+  "latency": {
+    "robots": {
+      "n": 37,
+      "median_s": 3.317,
+      "p90_s": 5.726,
+      "definition": "successful selected endpoint probe elapsed time; nearest-rank p90"
+    },
+    "sitemap": {
+      "n": 36,
+      "median_s": 3.1275000000000004,
+      "p90_s": 5.471,
+      "definition": "successful selected endpoint probe elapsed time; nearest-rank p90"
+    }
+  },
+  "limits": [
+    "Rates describe the fixed seed list and this probe only.",
+    "Recognised XML roots do not validate inventory completeness or linked URLs.",
+    "Elapsed times include client processing and redirects; v1.2 includes worker startup.",
+    "Cross-version observations are not a controlled time series."
+  ]
+}

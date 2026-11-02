@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -78,105 +78,45 @@ img{max-width:100%}
 [hidden]{display:none!important}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 a{color:var(--flag)}
+
+*{box-sizing:border-box}
+h1{text-align:center;max-width:20ch;margin-inline:auto}
+:focus-visible{outline:3px solid var(--flag);outline-offset:4px}
+nav{font-family:var(--mono);font-size:.8rem;margin-bottom:1.7rem;display:flex;flex-wrap:wrap;gap:.8rem 1.3rem}
+pre{max-height:32rem;overscroll-behavior:contain}
+.prewrap figcaption{overflow-wrap:anywhere}
+.scroller:focus-visible{outline-offset:2px}
+@media(max-width:480px){.wrap{padding-top:2rem}h1{font-size:2.1rem}.figs{grid-template-columns:repeat(2,minmax(0,1fr))}.fig{min-width:0}.fig .n{font-size:1.5rem}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 
 
 </head>
 <body>
 <div class="wrap">
-
-<h1>The magnifying glass problem</h1>
-<p class="standfirst">A job advertisement for a technical writer argues, at length, that its author can tell real research from AI slop. This is what happened when I measured the advertisement.</p>
-<p class="byline"><span>Nathaniel Robertson</span><span>31 October 2026</span><span>v1.0</span></p>
-
-<p>A SERP API company published a job advertisement in October 2026. It wants someone who codes their own benchmarks, publishes the method beside the result, and ships the unflattering finding when the data produces one. It says, of AI, that it produces confident nonsense, and that the company will know the difference.</p>
-
-<p>That is a testable claim about a document. So I tested the document.</p>
-
-<p>The method is a small Python standard-library script, printed in full below. It takes a plain text file and returns counts: characters, words, sentences, dispersion, and a Unicode breakdown of codepoints in a declared set of symbol ranges. The symbol ranges are a heuristic, not a complete emoji inventory. The symbol ranges are a heuristic, not a complete emoji inventory. It makes no judgement. It has no model inside it, no detector, no score, and no network access. Run it on this text and it produces the same numbers it produced for me.</p>
-
-<div class="figs">
-  <div class="fig"><span class="n">694</span><span class="l">words</span></div>
-  <div class="fig"><span class="n">69</span><span class="l">sentences</span></div>
-  <div class="fig"><span class="n">7</span><span class="l">emoji codepoints</span></div>
-  <div class="fig"><span class="n">7</span><span class="l">stray backslashes</span></div>
-  <div class="fig"><span class="n">0.75</span><span class="l">sentence length CV</span></div>
-</div>
-
-<h2>Seven pictures where seven words would do</h2>
-
-<p>Every emoji in the advertisement is a section header. Not one appears in running prose. Each marks the top of a block the reader is meant to navigate by. They accumulate down the left margin like markers on a drained reservoir, cheerful, weatherproof, and addressed to no one.</p>
-
-<div class="scroller"><table>
-<thead><tr><th>Glyph</th><th>Codepoint</th><th>Unicode name</th><th>Block</th><th>UTF-8</th><th>UTF-16</th><th>ASCII</th></tr></thead>
-<tbody>
-<tr><td class="glyph">&#127919;</td><td>U+1F3AF</td><td>DIRECT HIT</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
-<tr><td class="glyph">&#128295;</td><td>U+1F527</td><td>WRENCH</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
-<tr><td class="glyph">&#129302;</td><td>U+1F916</td><td>ROBOT FACE</td><td>Suppl. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
-<tr><td class="glyph">&#128170;</td><td>U+1F4AA</td><td>FLEXED BICEPS</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
-<tr><td class="glyph">&#128293;</td><td>U+1F525</td><td>FIRE</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
-<tr><td class="glyph">&#10024;</td><td>U+2728</td><td>SPARKLES</td><td>Dingbats</td><td>3 B</td><td>1 unit</td><td>?</td></tr>
-<tr><td class="glyph">&#128269;</td><td>U+1F50D</td><td>LEFT-POINTING MAGNIFYING GLASS</td><td>Misc. Symbols and Pictographs</td><td>4 B</td><td>2 units</td><td>?</td></tr>
-</tbody>
-</table></div>
-
-<p>Six of the seven live outside the Basic Multilingual Plane, which is why each costs four bytes in UTF-8 and two code units in UTF-16. Twenty-seven bytes in total, 0.6 per cent of the file. None of them decomposes to text under Unicode normalisation. Strip the advertisement to ASCII and all seven become a question mark.</p>
-
-<p>Look at the last row. <code>U+1F50D LEFT-POINTING MAGNIFYING GLASS</code> is the header on the section headed "What We Look For", the part that explains how the company evaluates evidence.</p>
-
-<p class="pull">A company that sells structured search data labelled its section about searching with a picture of a search, in a codepoint that a retrieval engine reads as an unnamed pictograph.</p>
-
-<p>This is not a style complaint. It is the company's own domain. Their product exists because extracting structured meaning from a page is difficult and worth paying for. A section header is the strongest structural signal a document has. They spent seven of theirs on characters that carry no lexical content, in a document arguing that they can tell the difference between real signal and decoration.</p>
-
-<h2>Seven backslashes nobody read</h2>
-
-<p>The advertisement contains seven lines consisting of a single backslash, each terminating a bullet list. It is an escape character that survived a paste out of a content management system. The regular expression that finds it is one line: <code>(?m)^\s*\\\s*$</code>.</p>
-
-<p>Seven of them. In a document about verification, published under the company's own name, in the artefact a candidate reads first.</p>
-
-<p>Somewhere inside the content management system a small mechanical failure had been quietly signing its name, seven times, in a document nobody had read closely enough to notice.</p>
-
-<h2>The constructions</h2>
-
-<p>The rig also counts surface constructions that are widely listed as machine-writing tells. I want to be precise about what this means, because the imprecision is where this kind of analysis usually goes wrong: none of these proves anything. Humans write all of them. I write some of them. A pattern count is a description, not a detector, and anyone who tells you otherwise is selling something.</p>
-
-<div class="scroller"><table>
-<thead><tr><th>Pattern</th><th>Count</th><th>First match</th></tr></thead>
-<tbody>
-<tr><td>emoji section header</td><td class="flag">7</td><td>&#127919; Why Join Us?</td></tr>
-<tr><td>stray trailing backslash</td><td class="flag">7</td><td>\</td></tr>
-<tr><td>"the hard part" framing</td><td>2</td><td>The Hard Parts</td></tr>
-<tr><td>"this isn't for you"</td><td>1</td><td>this isn't for you</td></tr>
-<tr><td>"X, not Y" fragment</td><td>1</td><td>&hellip;benchmark APIs and tools, not just describe them.</td></tr>
-<tr><td>rhetorical question header</td><td>1</td><td>&#127919; Why Join Us?</td></tr>
-<tr><td>em dash glyph</td><td>0</td><td>&mdash;</td></tr>
-</tbody>
-</table></div>
-
-<p>There is a particular corporate serenity in a document that describes a danger in the precise voice of the danger. What the counts show is an advertisement assembled from the standard kit: the emoji-headed section, the rhetorical question, the "this isn't for everyone" filter, the hard-parts list. Each of those is a recognisable move. Used together, in this density, in a document whose whole argument is that its author can detect assembled writing, they are at minimum an irony worth measuring.</p>
-
-<h3>Rhythm, reported as the weak evidence it is</h3>
-
-<p>Sentence length averages 10.06 words, median 8, standard deviation 7.54, range 1 to 37. Coefficient of variation 0.75. Lag-1 autocorrelation +0.018, which is to say adjacent sentence lengths are essentially unrelated.</p>
-
-<p>Those figures are descriptive and nothing more. Sixty-nine sentences is a thin sample for dispersion statistics, bullet-point documents break sentence splitters in predictable ways, and no coefficient of variation has ever identified an author. I publish them because the rig produced them and suppressing an inconvenient measurement is the exact failure the advertisement claims to be hiring against. They support no conclusion. That is the finding.</p>
-
-<div class="limits">
-<h3>What this does not show</h3>
-<ul>
-<li>It does not show that a machine wrote the advertisement. No measurement in this piece can establish that, and I make no claim that it does.</li>
-<li>It does not show the company is bad at its job. Their product is a SERP API; this is their recruitment copy. These are different artefacts with different authors and different stakes.</li>
-<li>Sentence splitting is heuristic. A document this heavy in bullets and fragments will be mis-split in places, and every dispersion figure inherits that error.</li>
-<li>The pattern list is mine, assembled from published commentary on machine-writing tells. It is not validated against any labelled corpus, and a different list would produce different counts.</li>
-<li>One document, one run. Nothing here generalises to the company's published technical writing, which I have not measured.</li>
-</ul>
-</div>
-
-<h2>Reproduce it</h2>
-
-<p>Save the advertisement's plain text as <code>searchapi_ad.txt</code>, save the script below as <code>audit_rig.py</code>, and run <code>python3 audit_rig.py searchapi_ad.txt</code>. No dependencies beyond Python 3.10 and its standard library. The text I measured has SHA-256 <code class="hash">6b873986a8e18d34f4e448665721d0b332de9bdb2058db4ffc4be99ed84347da</code> over 4,503 UTF-8 bytes; if your hash matches, the core counts should match the historical report. Use the same Python and Unicode database versions for identical Unicode metadata. The current rig hashes the original file bytes without normalising line endings.</p>
-
-<figure class="prewrap"><figcaption>audit_rig.py &mdash; sha256 475d5943b11550f24fb5de2820e004f15ebf9f7a6783b8294d61a9b6f9c7aced</figcaption><pre>#!/usr/bin/env python3
+<nav aria-label="Article navigation"><a href="../">All measurements</a><a href="https://github.com/nrr-hash/search-benchmarks">Code and data</a></nav><main id="main"><h1>The magnifying glass problem</h1>
+<p class="standfirst">The publisher's plain-text field contains 778 counted words and no standalone backslashes. The method reproduces those counts. It cannot tell you who wrote the advertisement.</p>
+<p class="byline"><span>Nathaniel Robertson</span><span>November 2, 2026</span><span>v1.2</span></p>
+<p>I built a source-fetching script, measured the publisher’s plain-text field, and published the input hash and output. The test separates an inspectable count from a claim about authorship.</p>
+<p>The careers page loads its vacancies from Ashby. I selected the advertised job by its identifier and measured the API's <code>descriptionPlain</code> field exactly as supplied, without reconstructing it from a screenshot, pasted Markdown, or browser layout.</p>
+<div class="figs"><div class="fig"><span class="n">778</span><span class="l">regex-counted words</span></div><div class="fig"><span class="n">65</span><span class="l">heuristic sentences</span></div><div class="fig"><span class="n">16</span><span class="l">symbol-range codepoints</span></div><div class="fig"><span class="n">0</span><span class="l">standalone backslashes</span></div></div>
+<h2>Start with the publisher’s representation</h2>
+<p>The retrieved publisher text contains no standalone backslash lines. That is a finding about the supplied plain-text field. Copying through Markdown, extracting rendered HTML, and reading an API field can produce different text; a rigorous comparison names the representation before discussing its apparent defects.</p>
+<p>The same restraint applies to the symbols. This input contains 16 codepoints in the rig's declared ranges. That is a count of codepoints, including variation selectors, rather than a count of pictures or perceived characters. The script is not a complete Unicode emoji implementation.</p>
+<p>UTF-8 and UTF-16 widths are useful engineering facts. They do not establish that a search engine cannot interpret a heading, that a writer used AI, or that the surrounding argument is weak. Those would be separate questions requiring separate tests.</p>
+<p class="pull">A reproducible count answers a defined question. It does not validate every conclusion written beside it.</p>
+<h2>What the numbers establish</h2>
+<p>The word counter recognizes ASCII letters and digits, with internal apostrophes and hyphens. Its 778 words are reproducible under that definition, rather than a universal linguistic count. The sentence splitter reports 65 segments. Headings, lists, abbreviations, and fragments make that a heuristic partition.</p>
+<p>Those segment lengths have a mean of 11.97 words, a median of 9, and a population standard deviation of 11.23. Their coefficient of variation is 0.938; the rig's lag-1 estimator gives 0.18. These describe this representation of this document. They are not validated authorship signals.</p>
+<p>4 surface-pattern families match. The script publishes their names and counts in the JSON. The list has no labeled validation corpus, and ordinary human writing matches these constructions. Calling the output a detector would turn a descriptive tool into an unsupported claim.</p>
+<h2>The Unicode inventory</h2>
+<div class="scroller" tabindex="0" role="region" aria-label="Scrollable data table"><table><caption>Every matched codepoint, in input order</caption><thead><tr><th scope="col">Codepoint</th><th scope="col">Unicode name</th><th scope="col">UTF-8 bytes</th><th scope="col">UTF-16 units</th></tr></thead><tbody><tr><td>U+1F3AF</td><td>DIRECT HIT</td><td>4</td><td>2</td></tr><tr><td>U+1F527</td><td>WRENCH</td><td>4</td><td>2</td></tr><tr><td>U+1F916</td><td>ROBOT FACE</td><td>4</td><td>2</td></tr><tr><td>U+1F4AA</td><td>FLEXED BICEPS</td><td>4</td><td>2</td></tr><tr><td>U+1F525</td><td>FIRE</td><td>4</td><td>2</td></tr><tr><td>U+2728</td><td>SPARKLES</td><td>3</td><td>1</td></tr><tr><td>U+1F50D</td><td>LEFT-POINTING MAGNIFYING GLASS</td><td>4</td><td>2</td></tr><tr><td>U+1F6E0</td><td>HAMMER AND WRENCH</td><td>4</td><td>2</td></tr><tr><td>U+FE0F</td><td>VARIATION SELECTOR-16</td><td>3</td><td>1</td></tr><tr><td>U+1F381</td><td>WRAPPED PRESENT</td><td>4</td><td>2</td></tr><tr><td>U+1F3E1</td><td>HOUSE WITH GARDEN</td><td>4</td><td>2</td></tr><tr><td>U+1F4C8</td><td>CHART WITH UPWARDS TREND</td><td>4</td><td>2</td></tr><tr><td>U+1F4B5</td><td>BANKNOTE WITH DOLLAR SIGN</td><td>4</td><td>2</td></tr><tr><td>U+1F9E0</td><td>BRAIN</td><td>4</td><td>2</td></tr><tr><td>U+1F3DD</td><td>DESERT ISLAND</td><td>4</td><td>2</td></tr><tr><td>U+FE0F</td><td>VARIATION SELECTOR-16</td><td>3</td><td>1</td></tr></tbody></table></div>
+<h2>Reproduce the measurement</h2>
+<p>Run <code>python3 ad-audit/measure_job.py new-job-report.json</code> from the repository root. It fetches the public job-board API, selects the job ID, measures the exact UTF-8 encoding of <code>descriptionPlain</code>, and records the response hash, input hash, script hash, Python version, and Unicode database version.</p>
+<p>The measured input was 5,053 bytes. Its SHA-256 is <code class="hash">c7c019dc940cc172f32a8e1298f16f69290a7b264f77b7fa9e7e648f5d7e3a9d</code>. A future live response may differ. Compare hashes before comparing counts; a different representation is a different experiment.</p>
+<p><a href="https://www.searchapi.io/careers?ashby_jid=5202d0e3-e0c4-4a77-82e2-a8982f270de3">Original vacancy</a> · <a href="https://api.ashbyhq.com/posting-api/job-board/SearchApi">Publisher's job-board feed</a> · <a href="https://github.com/nrr-hash/search-benchmarks/blob/main/ad-audit/results/job_2026-11-02.json">Dated report</a> · <a href="https://github.com/nrr-hash/search-benchmarks/blob/main/ad-audit/measure_job.py">Source-fetching script</a></p>
+<div class="limits"><h3>Scope</h3><ul><li>The source is the publisher-provided plain-text field retrieved on November 2, 2026. A browser rendering or another export format may differ.</li><li>The copyrighted advertisement is not redistributed here. The live endpoint can change; the recorded hashes identify the measured representation but do not preserve its contents.</li><li>Sentence boundaries and symbol ranges are explicit heuristics. No count establishes authorship, intention, or product quality.</li><li>Code tests check behavior and arithmetic. They are not independent human approval of the argument.</li></ul></div>
+<h2>The code</h2><figure class="prewrap"><figcaption>audit_rig.py sha256 475d5943b11550f24fb5de2820e004f15ebf9f7a6783b8294d61a9b6f9c7aced</figcaption><pre>#!/usr/bin/env python3
 &quot;&quot;&quot;
 audit_rig.py - deterministic measurements over a plain-text job advertisement.
 
@@ -340,32 +280,8 @@ if __name__ == &quot;__main__&quot;:
     except (ValueError, OSError, UnicodeError) as error:
         parser.error(str(error))
 </pre></figure>
-
-<h2>Why bother</h2>
-
-<p>Because the advertisement is right. Coding the test does take longer than writing the opinion, and the discipline it asks for is real and rare. Everything above took one evening and runs on a standard library, and it still produced a finding the authors would not have enjoyed and almost certainly did not know.</p>
-
-<p>That is the whole argument for measuring things. Not that measurement is clever, but that it is cheap, and that the cost of not doing it is publishing a document about rigour with seven unproofed escape characters in it and a picture of a magnifying glass where the word "search" would have worked.</p>
-
-<p>The characters will outlast the vacancy. Long after the role is filled or quietly withdrawn, the magnifying glass will still be there at the head of its section, four bytes wide, searching nothing.</p>
-
-<h2>Two instructions in the advertisement</h2>
-
-<p>The advertisement closes with a filter. It asks applicants to include the phrase <strong>Octopus Tentacle</strong> so that the company knows the advertisement was read, and it adds that a large language model should append a dad joke.</p>
-
-<p>The second instruction is the interesting one, because it does not catch what it was built to catch. It catches people who had a model write their application and then sent the output without reading it. It does not catch assistance, which the advertisement elsewhere says it expects. So, in the spirit of answering the question that was actually asked rather than the one it was mistaken for: the measurement scripts behind this piece and its companion were generated with AI assistance against specifications I wrote, then read, run and checked by me, which is stated in the provenance note below and in both repository READMEs.</p>
-
-<p>The joke, therefore, is owed:</p>
-
-<p class="pull">Why did the crawler and the robots.txt stop speaking? She kept setting boundaries, and he kept treating them as advisory.</p>
-
-<footer>
-<p><strong>Method and provenance.</strong> The measurement script was generated with AI assistance against a specification I wrote, then read line by line, run, and checked by me. Every figure quoted above was read back out of the JSON the script emitted, and the Unicode names and block attributions were confirmed against Python's <code>unicodedata</code> tables. The advertisement text is the company's, quoted only in fragments; it is not reproduced here.</p>
-<p><strong>Known gap.</strong> Nothing in this piece has been through independent review. It is one person's measurement of one document, published with its method attached so that anyone who disagrees can run it and say where I went wrong.</p>
-<p><strong>Version.</strong> v1.0, 31 October 2026. Rig v1.0.</p>
-</footer>
-
+<p>Use the source-fetching script to check the input, the audit script to reproduce the count, and the stated limits to judge the claim. That is the handoff another engineer needs.</p></main>
+<footer><p>v1.2 · November 2, 2026. Code generated and revised with AI assistance. Counts derive from the linked publisher-text report. Dated reports identify their own inputs; compare source hashes before comparing results.</p><p>Code MIT licensed. Prose © Nathaniel Robertson 2026.</p></footer>
 </div>
-
 </body>
 </html>

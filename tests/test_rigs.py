@@ -54,10 +54,10 @@ class Rigs(unittest.TestCase):
     def test_cli_timeout_and_checkpoint(self):
         with tempfile.TemporaryDirectory() as d:
             seeds=Path(d)/'seeds';seeds.write_text('test:example.org\n');out=Path(d)/'out'
-            record={'robots':{'status':200},'sitemap':{'status':200,'entries':1},'feed':{'parsed_kind':'rss'}}
+            record={'domain':'example.org','robots':{'status':200},'sitemap':{'status':200,'entries':1,'parsed_kind':'urlset'},'feed':{'parsed_kind':'rss'}}
             with patch.object(b.sys,'argv',['bench',str(seeds),str(out),'--timeout','2']), patch.object(b,'probe',return_value=record) as probe, patch.object(b.time,'sleep'), contextlib.redirect_stderr(io.StringIO()):
                 b.main()
-            probe.assert_called_once_with('example.org',timeout=2)
+            self.assertEqual(probe.call_args.args,('example.org',)); self.assertEqual(probe.call_args.kwargs['timeout'],2)
             data=json.loads(out.read_text());self.assertEqual(data['timeout_s'],2);self.assertTrue(data['complete'])
 
     def test_empty_analysis(self):
@@ -70,7 +70,7 @@ class Rigs(unittest.TestCase):
         for data,headers in [(b'123456',{}),(gzip.compress(b'x'*100),{'Content-Encoding':'gzip'}),(b'broken',{'Content-Encoding':'gzip'})]:
             r=Response(data);r.headers=headers
             with patch.object(b.urllib.request,'urlopen',return_value=r):
-                status,body,secs,error=b.get('https://example.org',limit=50 if headers else 5)
+                status,body,secs,error=b._get_direct('https://example.org',limit=50 if headers else 5)
             self.assertIsNotNone(error)
     def test_stored_run_totals(self):
         rows=json.loads((ROOT/'dead-web/runs/run_2026-10-31.json').read_text())['results']
@@ -81,7 +81,7 @@ class PublishedSources(unittest.TestCase):
         import re, html
         for doc, paths in [('docs/dead-web/index.html', ['dead-web/seeds.txt','dead-web/deadtech_bench.py']), ('docs/magnifying-glass/index.html',['ad-audit/audit_rig.py'])]:
             text=(ROOT/doc).read_text()
-            blocks=re.findall(r'<pre>(.*?)</pre>',text,re.S)
+            blocks=re.findall(r'<figure class="prewrap">.*?<pre>(.*?)</pre>',text,re.S)
             self.assertEqual(len(blocks),len(paths))
             for block,path in zip(blocks,paths):
                 data=(ROOT/path).read_bytes()
@@ -100,4 +100,44 @@ class PublishedSources(unittest.TestCase):
             path=Path(d)/'run';path.write_text(json.dumps(data))
             with contextlib.redirect_stdout(io.StringIO()):z.main(path)
 
-if __name__=='__main__':unittest.main()
+
+
+class NetworkAndSource(unittest.TestCase):
+    def test_request_deadline(self):
+        import subprocess
+        with patch.object(b.subprocess,'run',side_effect=subprocess.TimeoutExpired('worker',.1)):
+            status,body,seconds,error=b.get('https://example.org',timeout=.1)
+        self.assertIsNone(status);self.assertEqual(error,'deadline exceeded')
+    def test_invalid_url_never_starts_worker(self):
+        with patch.object(b.subprocess,'run') as run:
+            self.assertIsNotNone(b.get('file:///etc/passwd')[3]);run.assert_not_called()
+    def test_source_selection(self):
+        job=load('job_source','ad-audit/measure_job.py')
+        raw=json.dumps({'jobs':[{'id':'other','descriptionPlain':'wrong'}, {'id':job.JOB_ID,'descriptionPlain':'A first line.\r\nA second line.'}]}).encode()
+        report=job.measure(raw,'2026-11-02T00:00:00+00:00')
+        self.assertEqual(report['source_sha256'],hashlib.sha256(b'A first line.\r\nA second line.').hexdigest())
+        self.assertEqual(report['provenance']['api_response_sha256'],hashlib.sha256(raw).hexdigest())
+    def test_missing_job_rejected(self):
+        job=load('job_source','ad-audit/measure_job.py')
+        with self.assertRaises(ValueError):job.select_input(b'{"jobs":[]}')
+    def test_redirect_and_archived_base(self):
+        import threading
+        from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                if self.path=='/redirect':
+                    self.send_response(302);self.send_header('Location','/nested/feed');self.end_headers()
+                else:
+                    self.send_response(200);self.send_header('Content-Type','application/rss+xml');self.end_headers();self.wfile.write(b'<rss><channel><item/></channel></rss>')
+            def log_message(self,*args):pass
+        server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
+        thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+        try:
+            details={};status,body,secs,error=b.get(f'http://127.0.0.1:{server.server_port}/redirect',timeout=5,details=details)
+            self.assertEqual(status,200);self.assertIsNone(error)
+            self.assertTrue(details['final_url'].endswith('/nested/feed'))
+            self.assertEqual(b.parse_feed(body)[:2],('rss',1))
+        finally:server.shutdown();server.server_close();thread.join()
+
+if __name__=="__main__":
+    unittest.main()

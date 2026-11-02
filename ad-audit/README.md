@@ -1,11 +1,15 @@
-# ad-audit
+# Publisher-text audit
 
-Deterministic measurements over a plain-text document: counts, dispersion,
-Unicode forensics on emoji codepoints, and surface-pattern counts.
+`measure_job.py` fetches the public job-board API linked from the supplied careers
+page, selects the exact job ID, and measures its `descriptionPlain` field.
+`results/job_2026-11-02.json` records the current article's counts and provenance.
+The source text itself is not redistributed. Later responses may change; compare
+hashes before comparing counts.
 
-See the repository README for usage and for why the measured advertisement is
-not committed here.
+`audit_rig.py` measures any UTF-8 file. It hashes original bytes and exposes its
+word, sentence, and symbol-range heuristics. Its surface patterns are not
+validated authorship indicators. No output is an AI detector or quality score.
 
-This is not a detector and must not be used as one. Every pattern it counts is
-written by humans routinely. The script returns counts; the judgement is the
-reader's, and the write-up states the limits in full.
+`results/ad_results.json` is historical output over a different pasted copy,
+whose original bytes are unavailable. It is not used to describe the current
+publisher-provided text. See the main README for commands and limits.

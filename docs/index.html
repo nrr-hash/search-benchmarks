@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -31,28 +31,29 @@ h1{font-size:clamp(2rem,6vw,2.8rem);line-height:1.1;font-weight:800;margin:0 0 .
 footer{margin-top:2.5rem;padding-top:1.3rem;border-top:1px solid var(--rule);
  font-family:var(--mono);font-size:.74rem;line-height:1.7;color:var(--ink-soft)}
 footer a{color:var(--flag)}
+h1{text-align:center;margin-inline:auto;max-width:20ch}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>Measurement rigs</h1>
-<p class="sub">Two small things I measured, with the code and the raw data attached, including the results that were inconvenient.</p>
+<p class="sub">Two small things I measured, with the code and the raw data attached, with stated inputs, methods, and limits.</p>
 
 <a class="item" href="dead-web/">
 <h2>What the dead web still publishes</h2>
-<p>Sitemaps and RSS have been declared obsolete for over a decade. 60 domains measured for availability, latency and freshness, and the one result in it I did not go looking for.</p>
-<span class="meta">31 October 2026 &middot; 60 domains &middot; rig and raw JSON in /dead-web</span>
+<p>Sitemaps and RSS have been declared obsolete for over a decade. A fresh 60-domain probe: 38 supplied a supported sitemap or feed. Recorded failures show where discovery ends and uncertainty starts.</p>
+<span class="meta">November 2, 2026 &middot; 60 domains &middot; 485 recorded requests</span>
 </a>
 
 <a class="item" href="magnifying-glass/">
 <h2>The magnifying glass problem</h2>
-<p>A job advertisement argues at length that its author can tell real research from AI slop. A Unicode and pattern audit of the advertisement itself.</p>
-<span class="meta">31 October 2026 &middot; 694 words measured &middot; rig and raw JSON in /ad-audit</span>
+<p>A publisher-source audit of a technical writing vacancy: reproducible counts, Unicode facts, and the boundary between a measurement and a verdict.</p>
+<span class="meta">November 2, 2026 &middot; 778 counted words &middot; source and method linked</span>
 </a>
 
 <footer>
 <p>Code MIT licensed. Prose &copy; Nathaniel Robertson 2026.<br>
-Scripts generated with AI assistance against my specifications, then read, run and checked by me. Neither piece has been independently reviewed; both say so.</p>
+Scripts generated and revised with AI assistance. Automated checks cover code behaviour and published arithmetic; they do not establish authorship or provide independent human sign-off.</p>
 </footer>
 </div>
 </body>
